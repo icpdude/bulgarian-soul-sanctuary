@@ -1,3 +1,5 @@
+import { ScrollChainStatus } from "./atomic/ScrollChainStatus";
+
 export const FooterSection = () => {
   return (
     <footer className="py-16 px-6 border-t border-border">
@@ -59,9 +61,12 @@ export const FooterSection = () => {
         
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-sm text-muted-foreground">
-            © 2024 Spirit of Bulgaria Foundation. 
-            <span className="ml-2">Licensed under Creative Commons BY-SA 4.0</span>
+          <div className="text-center md:text-left space-y-2">
+            <ScrollChainStatus />
+            <div className="text-sm text-muted-foreground">
+              © 2024 Spirit of Bulgaria Foundation. 
+              <span className="ml-2">Licensed under Creative Commons BY-SA 4.0</span>
+            </div>
           </div>
           
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
