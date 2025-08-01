@@ -3,7 +3,9 @@ import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { MissionSection } from "@/components/MissionSection";
 import { PillarsSection } from "@/components/PillarsSection";
+import { AcademySection } from "@/components/AcademySection";
 import { NFTSection } from "@/components/NFTSection";
+import { CommunitySection } from "@/components/CommunitySection";
 import { MembershipSection } from "@/components/MembershipSection";
 import { DAOSection } from "@/components/DAOSection";
 import { DonationSection } from "@/components/DonationSection";
@@ -48,6 +50,17 @@ const Index = () => {
           <PillarsSection />
         </motion.section>
         
+        {/* Academy Section */}
+        <motion.section 
+          id="academy"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <AcademySection />
+        </motion.section>
+
         {/* NFT Collection */}
         <motion.section 
           id="nft"
@@ -57,6 +70,17 @@ const Index = () => {
           viewport={{ once: true }}
         >
           <NFTSection />
+        </motion.section>
+
+        {/* Community Section */}
+        <motion.section 
+          id="community"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          <CommunitySection />
         </motion.section>
         
         {/* Membership Tiers */}
