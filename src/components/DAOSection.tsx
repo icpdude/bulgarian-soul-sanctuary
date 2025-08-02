@@ -1,135 +1,299 @@
+import { motion, useInView } from "framer-motion";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap } from "lucide-react";
 
 const proposals = [
   {
-    id: "SOP-001",
-    title: "Fund Digital Archive Expansion",
-    description: "Allocate 50 ETH for digitizing 200 new folk songs from Dobrudja region",
-    status: "Active",
-    votes: { for: 156, against: 23, total: 179 },
-    timeLeft: "3 days"
+    id: "PROP-001",
+    title: "Sacred Site Preservation Initiative",
+    description: "Allocate 50,000 BGN for the restoration of the ancient Thracian sanctuary at Perperikon",
+    status: "active",
+    votesFor: 1247,
+    votesAgainst: 89,
+    timeLeft: "3 days",
+    category: "Heritage"
   },
   {
-    id: "SOP-002", 
-    title: "Partnership with Bulgarian National Museum",
-    description: "Establish collaboration for artifact digitization and NFT creation",
-    status: "Passed",
-    votes: { for: 203, against: 12, total: 215 },
-    timeLeft: "Completed"
+    id: "PROP-002", 
+    title: "Digital Archive Expansion",
+    description: "Fund creation of 3D scans and virtual reality experiences for Bulgarian monasteries",
+    status: "active",
+    votesFor: 892,
+    votesAgainst: 156,
+    timeLeft: "1 week",
+    category: "Technology"
   },
   {
-    id: "SOP-003",
-    title: "Scholarship Program Launch",
-    description: "Create educational scholarships for Bulgarian cultural studies",
-    status: "Pending",
-    votes: { for: 0, against: 0, total: 0 },
-    timeLeft: "Starts in 2 days"
+    id: "PROP-003",
+    title: "Cultural Education Program",
+    description: "Launch educational initiatives in 100 schools across Bulgaria",
+    status: "passed",
+    votesFor: 2341,
+    votesAgainst: 234,
+    timeLeft: "Passed",
+    category: "Education"
   }
 ];
 
+const daoStats = [
+  { label: "Total Members", value: "2,847", icon: Users, color: "text-primary" },
+  { label: "Active Proposals", value: "12", icon: Vote, color: "text-amber" },
+  { label: "Funds Allocated", value: "€234K", icon: Wallet, color: "text-rose" },
+  { label: "Success Rate", value: "94%", icon: CheckCircle, color: "text-secondary" }
+];
+
 export const DAOSection = () => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [isConnected, setIsConnected] = useState(false);
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.2,
+        delayChildren: 0.3,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 },
+    },
+  };
+
   return (
-    <section className="py-24 px-6 relative">
-      <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
-            DAO Governance Portal
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-            Shape the future of Bulgarian cultural preservation through decentralized governance. 
-            Connect your wallet to participate in community decisions.
-          </p>
-        </div>
-        
-        {/* Wallet Connection Status */}
-        <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 mb-12 border border-border">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-gradient-dawn rounded-full flex items-center justify-center">
-                <span className="text-2xl">🔗</span>
-              </div>
+    <section ref={ref} className="py-24 px-6 relative overflow-hidden">
+      {/* Mystical Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-background via-navy/10 to-background" />
+      <div className="absolute inset-0 opacity-5">
+        <motion.div
+          className="absolute top-20 right-1/4 text-9xl"
+          animate={{ rotate: 360, scale: [1, 1.1, 1] }}
+          transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+        >
+          ⚡
+        </motion.div>
+        <motion.div
+          className="absolute bottom-10 left-1/3 text-7xl"
+          animate={{ rotate: -360, y: [0, -20, 0] }}
+          transition={{ duration: 45, repeat: Infinity, ease: "linear" }}
+        >
+          🏛️
+        </motion.div>
+        <motion.div
+          className="absolute top-1/3 left-10 text-5xl"
+          animate={{ rotate: 180, scale: [1, 1.3, 1] }}
+          transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+        >
+          🗳️
+        </motion.div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 50 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+          transition={{ duration: 0.8 }}
+        >
+          <motion.h2 
+            className="text-4xl md:text-6xl font-bold mb-6 text-foreground"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Sacred Council DAO
+          </motion.h2>
+          <motion.div 
+            className="w-24 h-1 bg-primary mx-auto mb-8"
+            initial={{ width: 0 }}
+            animate={isInView ? { width: 96 } : { width: 0 }}
+            transition={{ duration: 1, delay: 0.5 }}
+          />
+          <motion.p 
+            className="text-xl text-muted-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            Join our decentralized community in making decisions that shape the future of Bulgarian 
+            cultural preservation. Every voice matters in our sacred democracy.
+          </motion.p>
+        </motion.div>
+
+        {/* Wallet Connection */}
+        <motion.div 
+          className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 mb-12 border border-border"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <motion.div
+                className="p-3 bg-primary/20 rounded-full"
+                whileHover={{ scale: 1.1, rotate: 15 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <Wallet className="w-6 h-6 text-primary" />
+              </motion.div>
               <div>
-                <h3 className="font-semibold text-foreground">Wallet Status</h3>
-                <p className="text-muted-foreground">Connect your wallet to participate in governance</p>
+                <h3 className="font-semibold text-foreground">
+                  {isConnected ? "Wallet Connected" : "Connect Your Wallet"}
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  {isConnected 
+                    ? "You can now participate in governance decisions" 
+                    : "Connect to participate in DAO governance"
+                  }
+                </p>
               </div>
             </div>
-            <Button size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
-              Connect Wallet
+            <Button 
+              onClick={() => setIsConnected(!isConnected)}
+              className={`${isConnected ? 'bg-secondary' : 'bg-primary'} hover:opacity-90`}
+            >
+              {isConnected ? "Disconnect" : "Connect Wallet"}
             </Button>
           </div>
-        </div>
-        
-        {/* Current Proposals */}
-        <div className="mb-12">
-          <h3 className="text-2xl font-bold mb-8 text-center text-foreground">Current Proposals</h3>
+        </motion.div>
+
+        {/* DAO Stats */}
+        <motion.div 
+          className="grid md:grid-cols-4 gap-6 mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          {daoStats.map((stat, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="bg-card/30 backdrop-blur-sm rounded-xl p-6 text-center border border-border group spiritual-card"
+              whileHover={{ scale: 1.05, y: -5 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              <motion.div
+                className={`w-12 h-12 ${stat.color} mx-auto mb-3 p-2`}
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
+                <stat.icon className="w-full h-full" />
+              </motion.div>
+              <div className={`text-3xl font-bold ${stat.color} mb-2 group-hover:text-primary transition-colors`}>
+                {stat.value}
+              </div>
+              <div className="text-sm text-muted-foreground">{stat.label}</div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Active Proposals */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+        >
+          <motion.h3 
+            className="text-3xl font-bold text-foreground mb-8"
+            variants={itemVariants}
+          >
+            Current Proposals
+          </motion.h3>
           
           <div className="space-y-6">
-            {proposals.map((proposal, index) => (
-              <Card key={index} className="bg-card/70 backdrop-blur-sm border-border">
-                <CardContent className="p-6">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
-                    <div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <span className="text-sm font-mono text-muted-foreground">{proposal.id}</span>
-                        <span className={`px-2 py-1 rounded-full text-xs ${
-                          proposal.status === "Active" ? "bg-primary/20 text-primary" :
-                          proposal.status === "Passed" ? "bg-green-500/20 text-green-400" :
-                          "bg-amber/20 text-amber"
-                        }`}>
-                          {proposal.status}
-                        </span>
+            {proposals.map((proposal, index) => {
+              const totalVotes = proposal.votesFor + proposal.votesAgainst;
+              const supportPercentage = (proposal.votesFor / totalVotes) * 100;
+              
+              return (
+                <motion.div
+                  key={proposal.id}
+                  variants={itemVariants}
+                  className="group"
+                >
+                  <Card className="bg-card/70 backdrop-blur-sm border-border hover:border-primary spiritual-card">
+                    <CardHeader>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <Badge 
+                            variant={proposal.status === "active" ? "default" : "secondary"}
+                            className={proposal.status === "active" ? "bg-primary" : "bg-secondary"}
+                          >
+                            {proposal.category}
+                          </Badge>
+                          <span className="text-sm text-muted-foreground">{proposal.id}</span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4" />
+                          {proposal.timeLeft}
+                        </div>
                       </div>
-                      <h4 className="text-lg font-semibold text-foreground mb-2">{proposal.title}</h4>
-                      <p className="text-muted-foreground">{proposal.description}</p>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-muted-foreground mb-1">{proposal.timeLeft}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {proposal.votes.total} votes cast
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">
+                        {proposal.title}
+                      </CardTitle>
+                    </CardHeader>
+                    
+                    <CardContent>
+                      <p className="text-muted-foreground mb-6 leading-relaxed">
+                        {proposal.description}
+                      </p>
+                      
+                      <div className="mb-6">
+                        <div className="flex justify-between text-sm mb-2">
+                          <span className="text-foreground">Support: {supportPercentage.toFixed(1)}%</span>
+                          <span className="text-muted-foreground">{totalVotes} votes</span>
+                        </div>
+                        <Progress value={supportPercentage} className="h-2" />
+                        <div className="flex justify-between text-xs text-muted-foreground mt-1">
+                          <span>For: {proposal.votesFor}</span>
+                          <span>Against: {proposal.votesAgainst}</span>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                  
-                  {proposal.status === "Active" && (
-                    <div className="flex gap-3">
-                      <Button variant="outline" className="border-green-500/50 text-green-400 hover:bg-green-500/20">
-                        Vote For ({proposal.votes.for})
-                      </Button>
-                      <Button variant="outline" className="border-red-500/50 text-red-400 hover:bg-red-500/20">
-                        Vote Against ({proposal.votes.against})
-                      </Button>
-                    </div>
-                  )}
-                  
-                  {proposal.status === "Passed" && (
-                    <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3">
-                      <div className="text-sm text-green-400">
-                        ✓ Proposal passed with {((proposal.votes.for / proposal.votes.total) * 100).toFixed(1)}% approval
-                      </div>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            ))}
+                      
+                      {proposal.status === "active" && isConnected && (
+                        <div className="flex space-x-3">
+                          <Button className="flex-1 bg-primary hover:bg-primary/90">
+                            <Vote className="w-4 h-4 mr-2" />
+                            Vote For
+                          </Button>
+                          <Button variant="outline" className="flex-1 border-border hover:bg-muted">
+                            <Vote className="w-4 h-4 mr-2" />
+                            Vote Against
+                          </Button>
+                        </div>
+                      )}
+                      
+                      {proposal.status === "passed" && (
+                        <div className="flex items-center justify-center p-4 bg-secondary/20 rounded-lg">
+                          <CheckCircle className="w-5 h-5 text-secondary mr-2" />
+                          <span className="text-secondary font-medium">Proposal Passed & Implemented</span>
+                        </div>
+                      )}
+                      
+                      {!isConnected && proposal.status === "active" && (
+                        <div className="flex items-center justify-center p-4 bg-muted/30 rounded-lg">
+                          <Shield className="w-5 h-5 text-muted-foreground mr-2" />
+                          <span className="text-muted-foreground">Connect wallet to participate</span>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
           </div>
-        </div>
-        
-        {/* DAO Stats */}
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 text-center border border-border">
-            <div className="text-3xl font-bold text-primary mb-2">247</div>
-            <div className="text-muted-foreground">Active Members</div>
-          </div>
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 text-center border border-border">
-            <div className="text-3xl font-bold text-rose mb-2">12</div>
-            <div className="text-muted-foreground">Proposals Passed</div>
-          </div>
-          <div className="bg-card/50 backdrop-blur-sm rounded-xl p-6 text-center border border-border">
-            <div className="text-3xl font-bold text-amber mb-2">89%</div>
-            <div className="text-muted-foreground">Participation Rate</div>
-          </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
