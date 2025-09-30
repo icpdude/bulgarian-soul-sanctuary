@@ -30,10 +30,13 @@ export const Navigation = () => {
     }
   });
 
+  const [activeSection, setActiveSection] = useState("#home");
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
+      setActiveSection(href);
     }
     setIsMenuOpen(false);
   };
@@ -56,7 +59,9 @@ export const Navigation = () => {
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className="flex items-center space-x-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className={`relative flex items-center space-x-2 text-sm font-medium transition-colors ${
+                  activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 initial={{ opacity: 0, y: -20 }}
@@ -65,6 +70,15 @@ export const Navigation = () => {
               >
                 <span>{item.icon}</span>
                 <span>{item.label}</span>
+                {activeSection === item.href && (
+                  <motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                    layoutId="activeNav"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
               </motion.button>
             ))}
           </div>

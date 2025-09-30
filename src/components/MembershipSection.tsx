@@ -110,7 +110,7 @@ export const MembershipSection = () => {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               whileHover={{ y: -8 }}
             >
-              <Card className="bg-card/70 backdrop-blur-sm border-border hover:border-primary hover:shadow-glow transition-all duration-500 group h-full relative overflow-hidden">
+              <Card variant="spiritual" className="group h-full relative overflow-hidden">
                 {/* Glow effect on hover */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"

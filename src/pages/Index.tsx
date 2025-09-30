@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
 import { ScrollProgress } from "@/components/atomic/ScrollProgress";
 import { BackToTop } from "@/components/atomic/BackToTop";
+import { CursorGlow } from "@/components/atomic/CursorGlow";
+import { SectionDivider } from "@/components/atomic/SectionDivider";
 import { HeroSection } from "@/components/HeroSection";
 import { MissionSection } from "@/components/MissionSection";
 import { PillarsSection } from "@/components/PillarsSection";
@@ -18,6 +20,7 @@ const Index = () => {
     <>
       <ScrollProgress />
       <BackToTop />
+      <CursorGlow />
       <motion.div
       className="min-h-screen bg-background"
       initial={{ opacity: 0 }}
@@ -33,6 +36,8 @@ const Index = () => {
           <HeroSection />
         </section>
         
+        <SectionDivider icon="🌿" />
+
         {/* Mission Statement */}
         <motion.section 
           id="mission"
@@ -43,6 +48,8 @@ const Index = () => {
         >
           <MissionSection />
         </motion.section>
+        
+        <SectionDivider icon="⚡" />
         
         {/* Four Pillars */}
         <motion.section 
@@ -55,6 +62,8 @@ const Index = () => {
           <PillarsSection />
         </motion.section>
         
+        <SectionDivider icon="🎓" />
+
         {/* Academy Section */}
         <motion.section 
           id="academy"
@@ -65,6 +74,8 @@ const Index = () => {
         >
           <AcademySection />
         </motion.section>
+        
+        <SectionDivider icon="📦" />
 
         {/* NFT Collection */}
         <motion.section 
@@ -77,6 +88,8 @@ const Index = () => {
           <NFTSection />
         </motion.section>
 
+        <SectionDivider icon="🫂" />
+
         {/* Community Section */}
         <motion.section 
           id="community"
@@ -87,6 +100,8 @@ const Index = () => {
         >
           <CommunitySection />
         </motion.section>
+        
+        <SectionDivider icon="✨" />
         
         {/* Membership Tiers */}
         <motion.section 
@@ -99,6 +114,8 @@ const Index = () => {
           <MembershipSection />
         </motion.section>
         
+        <SectionDivider icon="🧠" />
+
         {/* DAO Portal */}
         <motion.section 
           id="dao"
@@ -109,6 +126,8 @@ const Index = () => {
         >
           <DAOSection />
         </motion.section>
+        
+        <SectionDivider icon="💎" />
         
         {/* Donation & Support */}
         <motion.section 
