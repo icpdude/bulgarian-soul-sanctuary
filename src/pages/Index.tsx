@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
+import { ScrollProgress } from "@/components/atomic/ScrollProgress";
+import { BackToTop } from "@/components/atomic/BackToTop";
 import { HeroSection } from "@/components/HeroSection";
 import { MissionSection } from "@/components/MissionSection";
 import { PillarsSection } from "@/components/PillarsSection";
@@ -13,7 +15,10 @@ import { FooterSection } from "@/components/FooterSection";
 
 const Index = () => {
   return (
-    <motion.div 
+    <>
+      <ScrollProgress />
+      <BackToTop />
+      <motion.div
       className="min-h-screen bg-background"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -120,6 +125,7 @@ const Index = () => {
         <FooterSection />
       </div>
     </motion.div>
+    </>
   );
 };
 
