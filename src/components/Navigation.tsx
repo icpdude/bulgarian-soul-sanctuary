@@ -1,20 +1,11 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./atomic/Logo";
 import { LanguageSwitcher } from "./atomic/LanguageSwitcher";
 import { WalletConnect } from "./atomic/WalletConnect";
-
-const navigationItems = [
-  { label: "Home", href: "#home", icon: "🏠" },
-  { label: "Mission", href: "#mission", icon: "🌿" },
-  { label: "Academy", href: "#academy", icon: "🎓" },
-  { label: "NFT Archives", href: "#nft", icon: "📦" },
-  { label: "Community", href: "#community", icon: "🫂" },
-  { label: "Donate", href: "#donate", icon: "💎" },
-  { label: "DAO Portal", href: "#dao", icon: "🧠" },
-];
+import { NAVIGATION_ITEMS } from "@/config/navigation";
 
 export const Navigation = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -31,6 +22,30 @@ export const Navigation = () => {
   });
 
   const [activeSection, setActiveSection] = useState("#home");
+
+  // Observe sections for active state
+  useEffect(() => {
+    const observers = NAVIGATION_ITEMS.map((item) => {
+      const element = document.querySelector(item.href);
+      if (!element) return null;
+
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setActiveSection(item.href);
+          }
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(element);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect());
+    };
+  }, []);
 
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
@@ -55,7 +70,7 @@ export const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
-            {navigationItems.map((item, index) => (
+            {NAVIGATION_ITEMS.map((item, index) => (
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
@@ -67,8 +82,9 @@ export const Navigation = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
+                title={item.description}
               >
-                <span>{item.icon}</span>
+                <span>{item.emoji}</span>
                 <span>{item.label}</span>
                 {activeSection === item.href && (
                   <motion.div
@@ -113,7 +129,7 @@ export const Navigation = () => {
           className="lg:hidden overflow-hidden"
         >
           <div className="pt-4 pb-2 space-y-2">
-            {navigationItems.map((item, index) => (
+            {NAVIGATION_ITEMS.map((item, index) => (
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
@@ -121,8 +137,9 @@ export const Navigation = () => {
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : -20 }}
                 transition={{ delay: index * 0.05 }}
+                title={item.description}
               >
-                <span>{item.icon}</span>
+                <span>{item.emoji}</span>
                 <span>{item.label}</span>
               </motion.button>
             ))}
