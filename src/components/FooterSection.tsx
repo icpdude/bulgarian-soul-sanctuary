@@ -29,7 +29,7 @@ export const FooterSection = () => {
               className="text-2xl font-bold text-gradient-dawn mb-4"
               whileHover={{ scale: 1.02 }}
             >
-              Spirit of Bulgaria
+              Bulgarian Spiritual Treasury
             </motion.h3>
             <p className="text-muted-foreground mb-6 max-w-md">
               A digital sanctuary preserving Bulgarian spiritual heritage through Web3 technology 
@@ -143,7 +143,7 @@ export const FooterSection = () => {
               className="text-sm text-muted-foreground"
               whileHover={{ scale: 1.02 }}
             >
-              © 2024 Spirit of Bulgaria Foundation. 
+              © 2024 Bulgarian Spiritual Treasury Foundation. 
               <span className="ml-2">Licensed under Creative Commons BY-SA 4.0</span>
             </motion.div>
           </div>

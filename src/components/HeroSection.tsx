@@ -107,7 +107,7 @@ export const HeroSection = () => {
               ease: "easeInOut",
             }}
           >
-            Spirit of Bulgaria
+            Bulgarian Spiritual Treasury
           </motion.span>
         </motion.h1>
         

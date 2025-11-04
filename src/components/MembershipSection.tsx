@@ -95,7 +95,7 @@ export const MembershipSection = () => {
             Join Our Sacred Circle
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Become part of the Spirit of Bulgaria community. Each membership tier comes with 
+            Become part of the Bulgarian Spiritual Treasury community. Each membership tier comes with 
             unique NFT badges and exclusive access to our cultural preservation efforts.
           </p>
         </motion.div>

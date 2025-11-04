@@ -148,7 +148,7 @@ export const MissionSection = () => {
                   animate={isInView ? { width: 64 } : { width: 0 }}
                   transition={{ duration: 1, delay: 1 }}
                 />
-                <p className="text-muted-foreground">Spirit of Bulgaria Foundation</p>
+                <p className="text-muted-foreground">Bulgarian Spiritual Treasury Foundation</p>
               </div>
             </motion.div>
           </motion.div>

@@ -41,7 +41,7 @@ export const Logo = () => {
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
-        Spirit of Bulgaria
+        Bulgarian Spiritual Treasury
       </motion.span>
     </motion.div>
   );
