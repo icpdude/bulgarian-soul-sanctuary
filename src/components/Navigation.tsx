@@ -61,7 +61,7 @@ export const Navigation = () => {
       initial={{ y: -100 }}
       animate={{ y: isVisible ? 0 : -100 }}
       transition={{ duration: 0.3, ease: "easeInOut" }}
-      className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border"
+      className="fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-xl border-b border-border/50 shadow-ambient"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -74,7 +74,7 @@ export const Navigation = () => {
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className={`relative flex items-center space-x-2 text-sm font-medium transition-colors ${
+                className={`relative flex items-center space-x-2 text-sm font-medium transition-elegant ${
                   activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 }`}
                 whileHover={{ scale: 1.05 }}
@@ -88,7 +88,7 @@ export const Navigation = () => {
                 <span>{item.label}</span>
                 {activeSection === item.href && (
                   <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-dawn shadow-glow"
                     layoutId="activeNav"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -133,7 +133,7 @@ export const Navigation = () => {
               <motion.button
                 key={item.label}
                 onClick={() => scrollToSection(item.href)}
-                className="flex items-center space-x-3 w-full p-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                className="flex items-center space-x-3 w-full p-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/80 rounded-lg transition-elegant hover:scale-[1.02]"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : -20 }}
                 transition={{ delay: index * 0.05 }}

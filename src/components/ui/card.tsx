@@ -4,14 +4,18 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const cardVariants = cva(
-  "rounded-lg border text-card-foreground shadow-sm transition-all duration-300",
+  "rounded-xl border text-card-foreground shadow-sm transition-elegant",
   {
     variants: {
       variant: {
-        default: "bg-card",
-        spiritual: "bg-card/70 backdrop-blur-sm border-border hover:border-primary hover:shadow-glow",
-        mystic: "bg-gradient-to-br from-card/80 to-primary/5 backdrop-blur-md border-primary/20 hover:border-primary/40 hover:shadow-warm",
-        ethereal: "bg-card/50 backdrop-blur-lg border-border/50 hover:bg-card/70",
+        default: "bg-card border-border hover:shadow-md",
+        spiritual: "bg-card/70 backdrop-blur-md border-border hover:border-primary/60 hover:shadow-glow hover:-translate-y-1 hover:scale-[1.02]",
+        mystic: "bg-gradient-to-br from-card/80 via-card/70 to-primary/8 backdrop-blur-lg border-primary/25 hover:border-primary/50 hover:shadow-warm hover:-translate-y-2 hover:scale-[1.02]",
+        ethereal: "bg-card/40 backdrop-blur-xl border-border/40 hover:bg-card/60 hover:border-primary/40 hover:shadow-ambient hover:-translate-y-1",
+        divine: "bg-gradient-to-br from-primary/5 via-rose/5 to-amber/5 backdrop-blur-xl border-2 border-primary/30 hover:border-primary/60 hover:shadow-elevated hover:-translate-y-2 hover:scale-[1.02]",
+        premium: "bg-gradient-to-br from-card via-card/95 to-primary/10 border-2 border-primary/40 shadow-elevated hover:shadow-deep hover:-translate-y-3 hover:scale-[1.03] hover:border-primary/70",
+        glass: "bg-card/30 backdrop-blur-2xl border border-border/30 hover:bg-card/50 hover:border-primary/50 hover:shadow-glow hover:-translate-y-1",
+        aurora: "bg-gradient-to-br from-card/60 via-primary/5 to-rose/5 backdrop-blur-xl border-2 border-transparent bg-clip-padding hover:shadow-elevated hover:-translate-y-2",
       },
     },
     defaultVariants: {

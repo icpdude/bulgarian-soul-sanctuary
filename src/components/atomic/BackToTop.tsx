@@ -30,7 +30,8 @@ export const BackToTop = () => {
       <Button
         onClick={scrollToTop}
         size="icon"
-        className="rounded-full w-12 h-12 shadow-glow bg-primary hover:bg-primary/90"
+        variant="divine"
+        className="rounded-full w-14 h-14 shadow-deep hover:shadow-glow"
       >
         <motion.div
           animate={{ y: [0, -3, 0] }}

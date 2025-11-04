@@ -5,27 +5,31 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-elegant focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-sm hover:shadow-md",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-sm hover:shadow-md",
         outline:
-          "border border-input bg-background/50 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground",
+          "border-2 border-input bg-background/50 backdrop-blur-sm hover:bg-accent hover:text-accent-foreground hover:border-accent",
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-sm hover:shadow-warm",
         ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-        spiritual: "bg-gradient-dawn text-background hover:opacity-90 shadow-glow transition-spiritual",
-        mystic: "bg-primary/20 backdrop-blur-sm text-primary border border-primary/30 hover:bg-primary hover:text-primary-foreground shadow-warm transition-spiritual",
+        link: "text-primary underline-offset-4 hover:underline hover:text-primary-glow",
+        spiritual: "bg-gradient-dawn text-background hover:opacity-90 shadow-warm hover:shadow-glow transition-spiritual hover:scale-105 font-semibold",
+        mystic: "bg-primary/15 backdrop-blur-sm text-primary border-2 border-primary/40 hover:bg-primary hover:text-primary-foreground hover:border-primary shadow-ambient hover:shadow-glow transition-spiritual hover:scale-105",
+        divine: "bg-gradient-to-br from-primary via-rose to-amber text-background shadow-elevated hover:shadow-deep transition-spiritual hover:scale-105 font-semibold",
+        ethereal: "bg-card/60 backdrop-blur-xl border-2 border-primary/30 text-foreground hover:bg-primary/10 hover:border-primary/60 shadow-ambient hover:shadow-glow transition-elegant",
+        premium: "bg-gradient-dusk text-foreground border-2 border-primary/50 shadow-elevated hover:shadow-deep hover:border-primary transition-spiritual hover:scale-105 font-semibold",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8",
-        icon: "h-10 w-10",
+        default: "h-11 px-5 py-2.5",
+        sm: "h-9 rounded-md px-3.5 text-xs",
+        lg: "h-13 rounded-lg px-10 py-3 text-base",
+        xl: "h-16 rounded-xl px-12 py-4 text-lg",
+        icon: "h-11 w-11",
       },
     },
     defaultVariants: {

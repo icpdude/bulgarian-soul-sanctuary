@@ -28,7 +28,7 @@ export const CursorGlow = () => {
     <motion.div
       className="pointer-events-none fixed inset-0 z-30 transition-opacity duration-300"
       style={{
-        background: `radial-gradient(600px circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary-glow) / 0.08), transparent 40%)`,
+        background: `radial-gradient(800px circle at ${mousePosition.x}px ${mousePosition.y}px, hsl(var(--primary-glow) / 0.12), hsl(var(--accent) / 0.06) 40%, transparent 70%)`,
         opacity: isVisible ? 1 : 0,
       }}
     />
