@@ -1,16 +1,20 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { Logo } from "./atomic/Logo";
 import { LanguageSwitcher } from "./atomic/LanguageSwitcher";
 import { WalletConnect } from "./atomic/WalletConnect";
 import { NAVIGATION_ITEMS } from "@/config/navigation";
+import { useModal } from "@/contexts/ModalContext";
 
 export const Navigation = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { scrollY } = useScroll();
+  const { openModal } = useModal();
+  const navigate = useNavigate();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -47,11 +51,29 @@ export const Navigation = () => {
     };
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
+  const handleNavigation = (item: typeof NAVIGATION_ITEMS[0]) => {
+    // Handle special modal cases
+    if (item.id === "membership") {
+      openModal("auth");
+      setIsMenuOpen(false);
+      return;
+    }
+    if (item.id === "donate") {
+      openModal("donation");
+      setIsMenuOpen(false);
+      return;
+    }
+    if (item.id === "dao") {
+      navigate("/dao");
+      setIsMenuOpen(false);
+      return;
+    }
+
+    // Handle regular scroll navigation
+    const element = document.querySelector(item.href);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
-      setActiveSection(href);
+      setActiveSection(item.href);
     }
     setIsMenuOpen(false);
   };
@@ -73,7 +95,7 @@ export const Navigation = () => {
             {NAVIGATION_ITEMS.map((item, index) => (
               <motion.button
                 key={item.label}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item)}
                 className={`relative flex items-center space-x-2 text-sm font-medium transition-elegant ${
                   activeSection === item.href ? "text-primary" : "text-muted-foreground hover:text-foreground"
                 }`}
@@ -132,7 +154,7 @@ export const Navigation = () => {
             {NAVIGATION_ITEMS.map((item, index) => (
               <motion.button
                 key={item.label}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item)}
                 className="flex items-center space-x-3 w-full p-3 text-left text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/80 rounded-lg transition-elegant hover:scale-[1.02]"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: isMenuOpen ? 1 : 0, x: isMenuOpen ? 0 : -20 }}
