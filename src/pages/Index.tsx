@@ -14,8 +14,18 @@ import { MembershipSection } from "@/components/MembershipSection";
 import { DAOSection } from "@/components/DAOSection";
 import { DonationSection } from "@/components/DonationSection";
 import { FooterSection } from "@/components/FooterSection";
+import { useEffect } from "react";
+import { capturePerformanceMetrics } from "@/lib/monitoring";
 
 const Index = () => {
+  useEffect(() => {
+    // Log performance metrics on mount
+    const metrics = capturePerformanceMetrics();
+    if (metrics && process.env.NODE_ENV === 'production') {
+      console.log('Performance Metrics:', metrics);
+    }
+  }, []);
+
   return (
     <>
       <ScrollProgress />

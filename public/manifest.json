@@ -1,0 +1,20 @@
+{
+  "name": "Bulgarian Spiritual Treasury",
+  "short_name": "BST Foundation",
+  "description": "Preserving and sharing Bulgaria's spiritual heritage through education, community, and sacred traditions",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#a78bfa",
+  "background_color": "#0f1114",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["education", "culture", "lifestyle"],
+  "lang": "en-US",
+  "dir": "ltr"
+}

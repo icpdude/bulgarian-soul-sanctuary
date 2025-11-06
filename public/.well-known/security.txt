@@ -1,0 +1,6 @@
+Contact: mailto:security@foundation-bst.org
+Expires: 2025-12-31T23:59:59.000Z
+Preferred-Languages: en, bg
+Canonical: https://foundation-bst.org/.well-known/security.txt
+Policy: https://foundation-bst.org/security-policy
+Acknowledgments: https://foundation-bst.org/security-acknowledgments
