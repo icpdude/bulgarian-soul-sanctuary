@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Heart, DollarSign, Coins, Palette, Users, Target, Gift } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 const fundingGoals = [
   {
@@ -67,6 +68,7 @@ const donationMethods = [
 export const DonationSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const { openModal } = useModal();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -206,7 +208,10 @@ export const DonationSection = () => {
                         <Progress value={percentage} className="h-3" />
                       </div>
                       
-                      <Button className="w-full bg-primary hover:bg-primary/90 group">
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/90 group"
+                        onClick={() => openModal("donation")}
+                      >
                         <Heart className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                         Support This Cause
                       </Button>
@@ -259,6 +264,7 @@ export const DonationSection = () => {
                     <Button 
                       variant="outline" 
                       className="w-full border-border hover:bg-primary hover:text-primary-foreground"
+                      onClick={() => openModal("donation")}
                     >
                       Choose This Method
                     </Button>
@@ -314,6 +320,7 @@ export const DonationSection = () => {
           <Button 
             size="lg" 
             className="bg-background text-foreground hover:bg-background/90 px-8 py-3 sacred-button"
+            onClick={() => openModal("donation")}
           >
             <Heart className="w-5 h-5 mr-2" />
             Make a Donation Today

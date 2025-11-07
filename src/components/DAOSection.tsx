@@ -1,10 +1,12 @@
 import { motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap } from "lucide-react";
+import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap, ArrowRight } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 const proposals = [
   {
@@ -50,6 +52,13 @@ export const DAOSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isConnected, setIsConnected] = useState(false);
+  const navigate = useNavigate();
+  const { openModal } = useModal();
+
+  const handleConnect = () => {
+    openModal("wallet");
+    setTimeout(() => setIsConnected(true), 2500);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -160,7 +169,7 @@ export const DAOSection = () => {
               </div>
             </div>
             <Button 
-              onClick={() => setIsConnected(!isConnected)}
+              onClick={isConnected ? () => setIsConnected(false) : handleConnect}
               className={`${isConnected ? 'bg-secondary' : 'bg-primary'} hover:opacity-90`}
             >
               {isConnected ? "Disconnect" : "Connect Wallet"}
@@ -293,6 +302,22 @@ export const DAOSection = () => {
               );
             })}
           </div>
+
+          <motion.div 
+            className="text-center mt-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
+          >
+            <Button 
+              size="lg" 
+              onClick={() => navigate("/dao")}
+              className="bg-primary hover:bg-primary/90 px-8"
+            >
+              View Full DAO Dashboard
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
     </section>

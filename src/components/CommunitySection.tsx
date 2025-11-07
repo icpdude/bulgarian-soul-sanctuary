@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, MessageCircle, Users, Globe, Heart, Star, ExternalLink } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 const communityStats = [
   { region: "Bulgaria", members: 1247, active: 892, badge: "🇧🇬" },
@@ -57,6 +58,7 @@ export const CommunitySection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [hoveredRegion, setHoveredRegion] = useState<string | null>(null);
+  const { openModal } = useModal();
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -330,7 +332,12 @@ export const CommunitySection = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                onClick={() => openModal("auth")}
+              >
                 Share Your Story
               </Button>
             </motion.div>

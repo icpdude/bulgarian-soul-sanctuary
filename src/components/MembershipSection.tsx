@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle2, Sparkles } from "lucide-react";
+import { useModal } from "@/contexts/ModalContext";
 
 const membershipTiers = [
   {
@@ -58,6 +59,18 @@ const membershipTiers = [
 ];
 
 export const MembershipSection = () => {
+  const { openModal } = useModal();
+
+  const handleAction = (action: string) => {
+    if (action === "Join Free" || action === "Apply Now") {
+      openModal("auth");
+    } else if (action === "Donate") {
+      openModal("donation");
+    } else if (action === "Partner With Us") {
+      openModal("auth");
+    }
+  };
+
   return (
     <section className="py-24 px-6 relative overflow-hidden">
       {/* Animated Background */}
@@ -174,6 +187,7 @@ export const MembershipSection = () => {
                     <Button 
                       className="w-full"
                       variant={tier.name === "Partner" ? "default" : "outline"}
+                      onClick={() => handleAction(tier.action)}
                     >
                       {tier.action}
                     </Button>
