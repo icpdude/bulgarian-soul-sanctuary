@@ -1,13 +1,21 @@
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Shield, User } from "lucide-react";
 import { Logo } from "./atomic/Logo";
 import { LanguageSwitcher } from "./atomic/LanguageSwitcher";
 import { WalletConnect } from "./atomic/WalletConnect";
 import { NAVIGATION_ITEMS } from "@/config/navigation";
 import { useModal } from "@/contexts/ModalContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export const Navigation = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -15,6 +23,9 @@ export const Navigation = () => {
   const { scrollY } = useScroll();
   const { openModal } = useModal();
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isLoggedIn] = useState(true); // Mock login state
+  const [userRole] = useState<"admin" | "member">("admin"); // Mock user role
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -65,6 +76,19 @@ export const Navigation = () => {
     }
     if (item.id === "dao") {
       navigate("/dao");
+      setIsMenuOpen(false);
+      return;
+    }
+
+    // If not on home page, navigate to home first
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const element = document.querySelector(item.href);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
       setIsMenuOpen(false);
       return;
     }
@@ -125,6 +149,36 @@ export const Navigation = () => {
           <div className="flex items-center space-x-4">
             <LanguageSwitcher />
             <WalletConnect />
+            
+            {isLoggedIn && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full">
+                    <Avatar className="w-8 h-8">
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        ED
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    <User className="w-4 h-4 mr-2" />
+                    Profile
+                  </DropdownMenuItem>
+                  {userRole === "admin" && (
+                    <DropdownMenuItem onClick={() => navigate("/admin")}>
+                      <Shield className="w-4 h-4 mr-2" />
+                      Admin Dashboard
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => openModal("auth")}>
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             
             {/* Mobile Menu Button */}
             <Button
