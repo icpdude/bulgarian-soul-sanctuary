@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap, ArrowRight } from "lucide-react";
+import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap, ArrowRight, FileText } from "lucide-react";
 import { useModal } from "@/contexts/ModalContext";
 
 const proposals = [
@@ -309,14 +309,25 @@ export const DAOSection = () => {
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
             transition={{ duration: 0.6, delay: 1.2 }}
           >
-            <Button 
-              size="lg" 
-              onClick={() => navigate("/dao")}
-              className="bg-primary hover:bg-primary/90 px-8"
-            >
-              View Full DAO Dashboard
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Button 
+                size="lg" 
+                onClick={() => navigate("/dao")}
+                className="bg-primary hover:bg-primary/90 px-8"
+              >
+                View Full DAO Dashboard
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                onClick={() => navigate("/docs")}
+                className="px-8"
+              >
+                <FileText className="w-4 h-4 mr-2" />
+                Read Documentation
+              </Button>
+            </div>
           </motion.div>
         </motion.div>
       </div>
