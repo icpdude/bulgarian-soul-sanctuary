@@ -1,6 +1,9 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { PageHead } from "@/components/PageHead";
+import { trackPageView } from "@/lib/analytics";
 import { 
   BookOpen, 
   Users, 
@@ -20,6 +23,10 @@ import { useNavigate } from "react-router-dom";
 
 const Documentation = () => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    trackPageView('/docs');
+  }, []);
 
   const sections = [
     {
@@ -188,6 +195,12 @@ const Documentation = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageHead 
+        title="Documentation"
+        description="Complete guide to DAO governance, treasury management, and participation. Learn how to vote, submit proposals, and contribute to Bulgarian cultural heritage."
+        keywords="DAO documentation, governance guide, treasury management, blockchain voting, participation guide"
+        canonicalUrl="https://foundation-bst.org/docs"
+      />
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />

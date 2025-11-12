@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
+import { PageHead } from "@/components/PageHead";
+import { trackPageView } from "@/lib/analytics";
 import { FooterSection } from "@/components/FooterSection";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -23,6 +25,10 @@ const Profile = () => {
 
   const [isEditing, setIsEditing] = useState(false);
 
+  useEffect(() => {
+    trackPageView('/profile');
+  }, []);
+
   const handleSave = () => {
     setIsEditing(false);
     toast({
@@ -39,6 +45,12 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <PageHead 
+        title="Profile"
+        description="Manage your DAO membership profile, view voting history, and configure account settings."
+        keywords="user profile, DAO member, voting history, account settings"
+        canonicalUrl="https://foundation-bst.org/profile"
+      />
       <Navigation />
       
       <main className="container mx-auto px-4 pt-32 pb-20">

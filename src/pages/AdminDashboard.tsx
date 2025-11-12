@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Navigation } from "@/components/Navigation";
+import { PageHead } from "@/components/PageHead";
+import { trackPageView } from "@/lib/analytics";
 import { FooterSection } from "@/components/FooterSection";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Shield, FileText, Wallet, Users } from "lucide-react";
@@ -9,8 +11,18 @@ import { TreasuryManagement } from "@/components/admin/TreasuryManagement";
 import { MemberManagement } from "@/components/admin/MemberManagement";
 
 const AdminDashboard = () => {
+  useEffect(() => {
+    trackPageView('/admin');
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
+      <PageHead 
+        title="Admin Dashboard"
+        description="Administrative control panel for managing DAO proposals, treasury allocations, and member permissions."
+        keywords="admin dashboard, DAO management, proposal management, treasury control"
+        canonicalUrl="https://foundation-bst.org/admin"
+      />
       <Navigation />
       
       <main className="container mx-auto px-4 pt-32 pb-20">

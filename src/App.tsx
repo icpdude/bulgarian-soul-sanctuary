@@ -7,6 +7,7 @@ import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { StructuredData } from "@/components/StructuredData";
 import { ModalProvider } from "@/contexts/ModalContext";
 import { ModalManager } from "@/components/modals/ModalManager";
+import { SkipToContent } from "@/components/atomic/SkipToContent";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DAODashboard from "./pages/DAODashboard";
@@ -28,6 +29,7 @@ const App = () => (
     <QueryClientProvider client={queryClient}>
       <ModalProvider>
         <TooltipProvider>
+          <SkipToContent />
           <StructuredData />
           <Toaster />
           <Sonner />

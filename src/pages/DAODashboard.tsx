@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { PageHead } from "@/components/PageHead";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
@@ -18,6 +19,7 @@ import { FooterSection } from "@/components/FooterSection";
 import { useNavigate } from "react-router-dom";
 import { useModal } from "@/contexts/ModalContext";
 import { toast } from "@/hooks/use-toast";
+import { trackPageView, trackVote, trackWalletConnection } from "@/lib/analytics";
 
 const proposals = [
   {
@@ -72,12 +74,17 @@ const DAODashboard = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [votedProposals, setVotedProposals] = useState<Set<string>>(new Set());
 
+  useEffect(() => {
+    trackPageView('/dao');
+  }, []);
+
   const handleVote = (proposalId: string, voteFor: boolean) => {
     if (!isConnected) {
       openModal("wallet");
       return;
     }
     setVotedProposals(prev => new Set(prev).add(proposalId));
+    trackVote(proposalId, voteFor ? 'for' : 'against');
     toast({
       title: "Vote Recorded",
       description: `You voted ${voteFor ? "FOR" : "AGAINST"} proposal ${proposalId}`,
@@ -86,11 +93,20 @@ const DAODashboard = () => {
 
   const handleConnect = () => {
     openModal("wallet");
-    setTimeout(() => setIsConnected(true), 2500);
+    setTimeout(() => {
+      setIsConnected(true);
+      trackWalletConnection('MetaMask', true);
+    }, 2500);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
+      <PageHead 
+        title="DAO Dashboard"
+        description="Participate in decentralized governance. Vote on proposals, manage treasury, and shape the future of Bulgarian spiritual heritage preservation."
+        keywords="DAO dashboard, blockchain governance, voting, treasury management, community proposals"
+        canonicalUrl="https://foundation-bst.org/dao"
+      />
       <Navigation />
       
       {/* Hero Section */}
