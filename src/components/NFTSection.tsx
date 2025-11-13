@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Filter, Search, ExternalLink } from "lucide-react";
-import { useModal } from "@/contexts/ModalContext";
 import { toast } from "@/hooks/use-toast";
 
 const nftCollection = [
@@ -71,16 +70,12 @@ export const NFTSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedFilter, setSelectedFilter] = useState("All");
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
-  const { openModal } = useModal();
 
   const handleMint = (title: string) => {
-    openModal("wallet");
-    setTimeout(() => {
-      toast({
-        title: "NFT Minting Initiated",
-        description: `${title} will be minted to your wallet once connected.`,
-      });
-    }, 1000);
+    toast({
+      title: "Connect Wallet First",
+      description: "Please connect your wallet using the button in the navigation bar to mint NFTs.",
+    });
   };
 
   const filteredCollection = selectedFilter === "All" 

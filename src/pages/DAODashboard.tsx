@@ -17,7 +17,6 @@ import {
 import { Navigation } from "@/components/Navigation";
 import { FooterSection } from "@/components/FooterSection";
 import { useNavigate } from "react-router-dom";
-import { useModal } from "@/contexts/ModalContext";
 import { toast } from "@/hooks/use-toast";
 import { trackPageView, trackVote, trackWalletConnection } from "@/lib/analytics";
 
@@ -70,7 +69,6 @@ const recentActivity = [
 
 const DAODashboard = () => {
   const navigate = useNavigate();
-  const { openModal } = useModal();
   const [isConnected, setIsConnected] = useState(false);
   const [votedProposals, setVotedProposals] = useState<Set<string>>(new Set());
 
@@ -80,7 +78,10 @@ const DAODashboard = () => {
 
   const handleVote = (proposalId: string, voteFor: boolean) => {
     if (!isConnected) {
-      openModal("wallet");
+      toast({
+        title: "Connect Wallet",
+        description: "Please connect your wallet using the button in the navigation bar to vote.",
+      });
       return;
     }
     setVotedProposals(prev => new Set(prev).add(proposalId));
@@ -92,11 +93,10 @@ const DAODashboard = () => {
   };
 
   const handleConnect = () => {
-    openModal("wallet");
-    setTimeout(() => {
-      setIsConnected(true);
-      trackWalletConnection('MetaMask', true);
-    }, 2500);
+    toast({
+      title: "Use Wallet Connect",
+      description: "Please use the Connect Wallet button in the navigation bar",
+    });
   };
 
   return (

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Vote, Users, Clock, CheckCircle, Wallet, Shield, Zap, ArrowRight, FileText } from "lucide-react";
-import { useModal } from "@/contexts/ModalContext";
+import { toast } from "@/hooks/use-toast";
 
 const proposals = [
   {
@@ -53,11 +53,13 @@ export const DAOSection = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [isConnected, setIsConnected] = useState(false);
   const navigate = useNavigate();
-  const { openModal } = useModal();
 
   const handleConnect = () => {
-    openModal("wallet");
-    setTimeout(() => setIsConnected(true), 2500);
+    // Wallet connection is now handled by RainbowKit in Navigation
+    toast({
+      title: "Use Wallet Connect",
+      description: "Please use the Connect Wallet button in the navigation bar",
+    });
   };
 
   const containerVariants = {
