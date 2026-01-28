@@ -60,12 +60,13 @@ export const useDelegateVotes = () => {
       return;
     }
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await writeContractAsync({
         address: TOKEN_ADDRESS,
         abi: GovernanceTokenABI,
         functionName: 'delegate',
         args: [delegatee],
-      });
+      } as any);
       analytics.track('delegate_votes', { delegatee });
     } catch (err) {
       console.error('Delegation error:', err);
@@ -136,19 +137,21 @@ export const useCastVote = () => {
     }
     try {
       if (reason) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await writeContractAsync({
           address: GOVERNOR_ADDRESS,
           abi: GovernorABI,
           functionName: 'castVoteWithReason',
           args: [proposalId, support, reason],
-        });
+        } as any);
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         await writeContractAsync({
           address: GOVERNOR_ADDRESS,
           abi: GovernorABI,
           functionName: 'castVote',
           args: [proposalId, support],
-        });
+        } as any);
       }
       analytics.track('cast_vote', { proposalId: proposalId.toString(), support: VoteType[support] });
     } catch (err) {
@@ -173,12 +176,13 @@ export const useCreateProposal = () => {
       return;
     }
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await writeContractAsync({
         address: GOVERNOR_ADDRESS,
         abi: GovernorABI,
         functionName: 'propose',
         args: [targets, values, calldatas, description],
-      });
+      } as any);
       analytics.track('create_proposal', { description: description.substring(0, 100) });
     } catch (err) {
       console.error('Proposal creation error:', err);
@@ -209,12 +213,13 @@ export const useExecuteProposal = () => {
     }
     try {
       const descriptionHash = keccak256(toBytes(description));
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await writeContractAsync({
         address: GOVERNOR_ADDRESS,
         abi: GovernorABI,
         functionName: 'execute',
         args: [targets, values, calldatas, descriptionHash],
-      });
+      } as any);
       analytics.track('execute_proposal', { description: description.substring(0, 100) });
     } catch (err) {
       console.error('Execution error:', err);
