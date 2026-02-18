@@ -19,6 +19,7 @@ import { FooterSection } from "@/components/FooterSection";
 import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { trackPageView, trackVote, trackWalletConnection } from "@/lib/analytics";
+import { TokenGate } from "@/components/TokenGate";
 
 const proposals = [
   {
@@ -109,6 +110,7 @@ const DAODashboard = () => {
       />
       <Navigation />
       
+      <TokenGate fallbackMessage="Mint a membership NFT to access the DAO Dashboard and participate in governance.">
       {/* Hero Section */}
       <section className="relative py-20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mystical opacity-10" />
@@ -509,6 +511,7 @@ const DAODashboard = () => {
           </TabsContent>
         </Tabs>
       </motion.div>
+      </TokenGate>
 
       <FooterSection />
     </div>
