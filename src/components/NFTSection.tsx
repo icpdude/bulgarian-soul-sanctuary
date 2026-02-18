@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Filter, Search, ExternalLink } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { MembershipMint } from "@/components/nft/MembershipMint";
 
 const nftCollection = [
   {
@@ -328,11 +329,21 @@ export const NFTSection = () => {
           ))}
         </motion.div>
         
+        {/* Membership Mint Section */}
+        <motion.div
+          className="mb-16"
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <MembershipMint />
+        </motion.div>
+
         <motion.div 
           className="text-center"
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-          transition={{ duration: 0.6, delay: 1.2 }}
+          transition={{ duration: 0.6, delay: 1.4 }}
         >
           <motion.div
             whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
