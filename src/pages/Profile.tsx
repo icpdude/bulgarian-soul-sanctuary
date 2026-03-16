@@ -254,7 +254,93 @@ const Profile = () => {
               )}
             </TabsContent>
 
-            {/* Voting History Tab */}
+            {/* Transactions Tab */}
+            <TabsContent value="transactions">
+              <Card className="border-primary/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ReceiptText className="w-5 h-5" />
+                    Transaction History
+                  </CardTitle>
+                  <CardDescription>On-chain mint events, transfers, and governance actions</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {mockTransactions.map((tx, index) => {
+                    const iconMap = {
+                      mint: Pickaxe,
+                      transfer_in: ArrowDownLeft,
+                      transfer_out: ArrowUpRight,
+                      vote: Vote,
+                    };
+                    const colorMap = {
+                      mint: "text-primary",
+                      transfer_in: "text-green-500",
+                      transfer_out: "text-orange-500",
+                      vote: "text-blue-500",
+                    };
+                    const bgMap = {
+                      mint: "bg-primary/10",
+                      transfer_in: "bg-green-500/10",
+                      transfer_out: "bg-orange-500/10",
+                      vote: "bg-blue-500/10",
+                    };
+                    const TxIcon = iconMap[tx.type];
+                    return (
+                      <motion.div
+                        key={tx.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="flex items-center gap-4 p-4 rounded-lg border border-border/50 hover:bg-accent/30 transition-colors"
+                      >
+                        <div className={`w-10 h-10 rounded-full ${bgMap[tx.type]} flex items-center justify-center shrink-0`}>
+                          <TxIcon className={`w-5 h-5 ${colorMap[tx.type]}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <p className="font-semibold text-sm truncate">{tx.label}</p>
+                            {tx.status === "pending" && (
+                              <Badge variant="secondary" className="text-xs">Pending</Badge>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="font-mono">{tx.id}</span>
+                            <span>·</span>
+                            <span>Block {tx.block.toLocaleString()}</span>
+                            {tx.type === "transfer_in" && tx.from && (
+                              <>
+                                <span>·</span>
+                                <span>From <span className="font-mono">{tx.from}</span></span>
+                              </>
+                            )}
+                            {tx.type === "transfer_out" && tx.to && (
+                              <>
+                                <span>·</span>
+                                <span>To <span className="font-mono">{tx.to}</span></span>
+                              </>
+                            )}
+                            {tx.type === "vote" && tx.proposal && (
+                              <>
+                                <span>·</span>
+                                <span>{tx.proposal}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p className="text-sm font-medium">{tx.amount}</p>
+                          <p className="text-xs text-muted-foreground">{new Date(tx.date).toLocaleDateString()}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="shrink-0" title="View on explorer">
+                          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                        </Button>
+                      </motion.div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
             <TabsContent value="voting">
               <Card className="border-primary/20">
                 <CardHeader>
