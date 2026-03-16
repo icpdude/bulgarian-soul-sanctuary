@@ -53,6 +53,7 @@ const Profile = () => {
   const { address, isConnected } = useAccount();
   const { isMember, tier, tierLabel, balance } = useMembershipStatus();
   const { totalSupply, isConfigured } = useNFTCollection();
+  const { transactions: onChainTxs, isLoading: txLoading, error: txError, isConfigured: txConfigured } = useTransactionHistory();
 
   const [userData, setUserData] = useState({
     name: "Elena Dimitrova",
