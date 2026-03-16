@@ -15,7 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   User, Wallet, History, Settings, Shield, Crown, Star,
-  Vote, CheckCircle, XCircle, Image, ExternalLink, Gem
+  Vote, CheckCircle, XCircle, Image, ExternalLink, Gem,
+  ArrowUpRight, ArrowDownLeft, Pickaxe, Send, ReceiptText
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
@@ -39,6 +40,15 @@ const mockVotingHistory = [
   { id: "PROP-002", title: "Digital Archive Expansion", voted: "for", date: "2025-02-05", result: "active", votesFor: 892, votesAgainst: 156 },
   { id: "PROP-003", title: "Cultural Education Program", voted: "against", date: "2025-01-28", result: "passed", votesFor: 2341, votesAgainst: 234 },
   { id: "PROP-004", title: "Community Outreach Funding", voted: "for", date: "2025-01-15", result: "rejected", votesFor: 320, votesAgainst: 890 },
+];
+
+const mockTransactions = [
+  { id: "0x1a2b...3c4d", type: "mint" as const, label: "Membership NFT Minted", tier: "Gold", amount: "0.05 ETH", date: "2025-01-15", block: 19284756, status: "confirmed" as const },
+  { id: "0x5e6f...7a8b", type: "transfer_in" as const, label: "NFT Received", from: "0x9c0d...1e2f", tier: "Basic", amount: "—", date: "2025-01-20", block: 19291032, status: "confirmed" as const },
+  { id: "0x3g4h...5i6j", type: "mint" as const, label: "Membership NFT Minted", tier: "Silver", amount: "0.03 ETH", date: "2025-02-01", block: 19305118, status: "confirmed" as const },
+  { id: "0x7k8l...9m0n", type: "transfer_out" as const, label: "NFT Sent", to: "0xAb12...Cd34", tier: "Basic", amount: "—", date: "2025-02-10", block: 19320445, status: "confirmed" as const },
+  { id: "0xOp1q...Rs2t", type: "vote" as const, label: "Governance Vote Cast", proposal: "PROP-001", amount: "—", date: "2025-02-10", block: 19320501, status: "confirmed" as const },
+  { id: "0xUv3w...Xy4z", type: "mint" as const, label: "Membership NFT Minted", tier: "Platinum", amount: "0.1 ETH", date: "2025-03-05", block: 19356789, status: "pending" as const },
 ];
 
 const Profile = () => {
@@ -172,10 +182,14 @@ const Profile = () => {
           )}
 
           <Tabs defaultValue="nfts" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsList className="grid w-full grid-cols-5 mb-6">
               <TabsTrigger value="nfts" className="flex items-center gap-2">
                 <Image className="w-4 h-4" />
                 <span className="hidden sm:inline">My NFTs</span>
+              </TabsTrigger>
+              <TabsTrigger value="transactions" className="flex items-center gap-2">
+                <ReceiptText className="w-4 h-4" />
+                <span className="hidden sm:inline">Transactions</span>
               </TabsTrigger>
               <TabsTrigger value="voting" className="flex items-center gap-2">
                 <Vote className="w-4 h-4" />
@@ -240,7 +254,93 @@ const Profile = () => {
               )}
             </TabsContent>
 
-            {/* Voting History Tab */}
+            {/* Transactions Tab */}
+            <TabsContent value="transactions">
+              <Card className="border-primary/20">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <ReceiptText className="w-5 h-5" />
+                    Transaction History
+                  </CardTitle>
+                  <CardDescription>On-chain mint events, transfers, and governance actions</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {mockTransactions.map((tx, index) => {
+                    const iconMap = {
+                      mint: Pickaxe,
+                      transfer_in: ArrowDownLeft,
+                      transfer_out: ArrowUpRight,
+                      vote: Vote,
+                    };
+                    const colorMap = {
+                      mint: "text-primary",
+                      transfer_in: "text-green-500",
+                      transfer_out: "text-orange-500",
+                      vote: "text-blue-500",
+                    };
+                    const bgMap = {
+                      mint: "bg-primary/10",
+                      transfer_in: "bg-green-500/10",
+                      transfer_out: "bg-orange-500/10",
+                      vote: "bg-blue-500/10",
+                    };
+                    const TxIcon = iconMap[tx.type];
+                    return (
+                      <motion.div
+                        key={tx.id}
+                        initial={{ opacity: 0, x: -10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.05 }}
+                        className="flex items-center gap-4 p-4 rounded-lg border border-border/50 hover:bg-accent/30 transition-colors"
+                      >
+                        <div className={`w-10 h-10 rounded-full ${bgMap[tx.type]} flex items-center justify-center shrink-0`}>
+                          <TxIcon className={`w-5 h-5 ${colorMap[tx.type]}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <p className="font-semibold text-sm truncate">{tx.label}</p>
+                            {tx.status === "pending" && (
+                              <Badge variant="secondary" className="text-xs">Pending</Badge>
+                            )}
+                          </div>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="font-mono">{tx.id}</span>
+                            <span>·</span>
+                            <span>Block {tx.block.toLocaleString()}</span>
+                            {tx.type === "transfer_in" && tx.from && (
+                              <>
+                                <span>·</span>
+                                <span>From <span className="font-mono">{tx.from}</span></span>
+                              </>
+                            )}
+                            {tx.type === "transfer_out" && tx.to && (
+                              <>
+                                <span>·</span>
+                                <span>To <span className="font-mono">{tx.to}</span></span>
+                              </>
+                            )}
+                            {tx.type === "vote" && tx.proposal && (
+                              <>
+                                <span>·</span>
+                                <span>{tx.proposal}</span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p className="text-sm font-medium">{tx.amount}</p>
+                          <p className="text-xs text-muted-foreground">{new Date(tx.date).toLocaleDateString()}</p>
+                        </div>
+                        <Button variant="ghost" size="icon" className="shrink-0" title="View on explorer">
+                          <ExternalLink className="w-4 h-4 text-muted-foreground" />
+                        </Button>
+                      </motion.div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
             <TabsContent value="voting">
               <Card className="border-primary/20">
                 <CardHeader>
