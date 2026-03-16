@@ -182,10 +182,14 @@ const Profile = () => {
           )}
 
           <Tabs defaultValue="nfts" className="w-full">
-            <TabsList className="grid w-full grid-cols-4 mb-6">
+            <TabsList className="grid w-full grid-cols-5 mb-6">
               <TabsTrigger value="nfts" className="flex items-center gap-2">
                 <Image className="w-4 h-4" />
                 <span className="hidden sm:inline">My NFTs</span>
+              </TabsTrigger>
+              <TabsTrigger value="transactions" className="flex items-center gap-2">
+                <ReceiptText className="w-4 h-4" />
+                <span className="hidden sm:inline">Transactions</span>
               </TabsTrigger>
               <TabsTrigger value="voting" className="flex items-center gap-2">
                 <Vote className="w-4 h-4" />
