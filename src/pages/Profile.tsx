@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
+import { useTransactionHistory, type OnChainTransaction } from "@/hooks/useTransactionHistory";
 import { getMembershipTierLabel, getMembershipTierColor, MembershipTier } from "@/contracts/MembershipNFTABI";
 
 const tierIcons: Record<number, typeof Crown> = {
