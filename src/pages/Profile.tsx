@@ -15,7 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import {
   User, Wallet, History, Settings, Shield, Crown, Star,
-  Vote, CheckCircle, XCircle, Image, ExternalLink, Gem
+  Vote, CheckCircle, XCircle, Image, ExternalLink, Gem,
+  ArrowUpRight, ArrowDownLeft, Pickaxe, Send, ReceiptText
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
