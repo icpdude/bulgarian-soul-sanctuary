@@ -43,14 +43,11 @@ const mockVotingHistory = [
   { id: "PROP-004", title: "Community Outreach Funding", voted: "for", date: "2025-01-15", result: "rejected", votesFor: 320, votesAgainst: 890 },
 ];
 
-const mockTransactions = [
-  { id: "0x1a2b...3c4d", type: "mint" as const, label: "Membership NFT Minted", tier: "Gold", amount: "0.05 ETH", date: "2025-01-15", block: 19284756, status: "confirmed" as const },
-  { id: "0x5e6f...7a8b", type: "transfer_in" as const, label: "NFT Received", from: "0x9c0d...1e2f", tier: "Basic", amount: "—", date: "2025-01-20", block: 19291032, status: "confirmed" as const },
-  { id: "0x3g4h...5i6j", type: "mint" as const, label: "Membership NFT Minted", tier: "Silver", amount: "0.03 ETH", date: "2025-02-01", block: 19305118, status: "confirmed" as const },
-  { id: "0x7k8l...9m0n", type: "transfer_out" as const, label: "NFT Sent", to: "0xAb12...Cd34", tier: "Basic", amount: "—", date: "2025-02-10", block: 19320445, status: "confirmed" as const },
-  { id: "0xOp1q...Rs2t", type: "vote" as const, label: "Governance Vote Cast", proposal: "PROP-001", amount: "—", date: "2025-02-10", block: 19320501, status: "confirmed" as const },
-  { id: "0xUv3w...Xy4z", type: "mint" as const, label: "Membership NFT Minted", tier: "Platinum", amount: "0.1 ETH", date: "2025-03-05", block: 19356789, status: "pending" as const },
-];
+const truncateHash = (hash: string) =>
+  hash.length > 10 ? `${hash.slice(0, 6)}…${hash.slice(-4)}` : hash;
+
+const truncateAddr = (addr: string) =>
+  addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
 
 const Profile = () => {
   const { address, isConnected } = useAccount();
