@@ -16,10 +16,11 @@ import { Progress } from "@/components/ui/progress";
 import {
   User, Wallet, History, Settings, Shield, Crown, Star,
   Vote, CheckCircle, XCircle, Image, ExternalLink, Gem,
-  ArrowUpRight, ArrowDownLeft, Pickaxe, Send, ReceiptText
+  ArrowUpRight, ArrowDownLeft, Pickaxe, ReceiptText
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
+import { useTransactionHistory, type OnChainTransaction } from "@/hooks/useTransactionHistory";
 import { getMembershipTierLabel, getMembershipTierColor, MembershipTier } from "@/contracts/MembershipNFTABI";
 
 const tierIcons: Record<number, typeof Crown> = {
@@ -42,19 +43,17 @@ const mockVotingHistory = [
   { id: "PROP-004", title: "Community Outreach Funding", voted: "for", date: "2025-01-15", result: "rejected", votesFor: 320, votesAgainst: 890 },
 ];
 
-const mockTransactions = [
-  { id: "0x1a2b...3c4d", type: "mint" as const, label: "Membership NFT Minted", tier: "Gold", amount: "0.05 ETH", date: "2025-01-15", block: 19284756, status: "confirmed" as const },
-  { id: "0x5e6f...7a8b", type: "transfer_in" as const, label: "NFT Received", from: "0x9c0d...1e2f", tier: "Basic", amount: "—", date: "2025-01-20", block: 19291032, status: "confirmed" as const },
-  { id: "0x3g4h...5i6j", type: "mint" as const, label: "Membership NFT Minted", tier: "Silver", amount: "0.03 ETH", date: "2025-02-01", block: 19305118, status: "confirmed" as const },
-  { id: "0x7k8l...9m0n", type: "transfer_out" as const, label: "NFT Sent", to: "0xAb12...Cd34", tier: "Basic", amount: "—", date: "2025-02-10", block: 19320445, status: "confirmed" as const },
-  { id: "0xOp1q...Rs2t", type: "vote" as const, label: "Governance Vote Cast", proposal: "PROP-001", amount: "—", date: "2025-02-10", block: 19320501, status: "confirmed" as const },
-  { id: "0xUv3w...Xy4z", type: "mint" as const, label: "Membership NFT Minted", tier: "Platinum", amount: "0.1 ETH", date: "2025-03-05", block: 19356789, status: "pending" as const },
-];
+const truncateHash = (hash: string) =>
+  hash.length > 10 ? `${hash.slice(0, 6)}…${hash.slice(-4)}` : hash;
+
+const truncateAddr = (addr: string) =>
+  addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
 
 const Profile = () => {
   const { address, isConnected } = useAccount();
   const { isMember, tier, tierLabel, balance } = useMembershipStatus();
   const { totalSupply, isConfigured } = useNFTCollection();
+  const { transactions: onChainTxs, isLoading: txLoading, error: txError, isConfigured: txConfigured } = useTransactionHistory();
 
   const [userData, setUserData] = useState({
     name: "Elena Dimitrova",
@@ -262,76 +261,105 @@ const Profile = () => {
                     <ReceiptText className="w-5 h-5" />
                     Transaction History
                   </CardTitle>
-                  <CardDescription>On-chain mint events, transfers, and governance actions</CardDescription>
+                  <CardDescription>
+                    {txConfigured
+                      ? "Live on-chain Transfer events from your membership NFT contract"
+                      : "NFT contract not configured — showing empty state"}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  {mockTransactions.map((tx, index) => {
-                    const iconMap = {
+                  {txLoading && (
+                    <div className="flex items-center justify-center py-12 text-muted-foreground">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-3" />
+                      Fetching on-chain events…
+                    </div>
+                  )}
+
+                  {txError && (
+                    <div className="text-center py-8 text-destructive">
+                      <p className="font-medium mb-1">Error loading transactions</p>
+                      <p className="text-sm text-muted-foreground">{txError}</p>
+                    </div>
+                  )}
+
+                  {!txLoading && !txError && onChainTxs.length === 0 && (
+                    <div className="text-center py-12">
+                      <ReceiptText className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
+                      <p className="font-semibold mb-1">No transactions found</p>
+                      <p className="text-sm text-muted-foreground">
+                        {txConfigured
+                          ? "Mint a membership NFT to see your first transaction here"
+                          : "Set VITE_MEMBERSHIP_NFT_ADDRESS to enable on-chain history"}
+                      </p>
+                    </div>
+                  )}
+
+                  {!txLoading && onChainTxs.map((tx, index) => {
+                    const iconMap: Record<string, typeof Pickaxe> = {
                       mint: Pickaxe,
                       transfer_in: ArrowDownLeft,
                       transfer_out: ArrowUpRight,
-                      vote: Vote,
                     };
-                    const colorMap = {
+                    const colorMap: Record<string, string> = {
                       mint: "text-primary",
                       transfer_in: "text-green-500",
                       transfer_out: "text-orange-500",
-                      vote: "text-blue-500",
                     };
-                    const bgMap = {
+                    const bgMap: Record<string, string> = {
                       mint: "bg-primary/10",
                       transfer_in: "bg-green-500/10",
                       transfer_out: "bg-orange-500/10",
-                      vote: "bg-blue-500/10",
                     };
-                    const TxIcon = iconMap[tx.type];
+                    const TxIcon = iconMap[tx.type] ?? ReceiptText;
                     return (
                       <motion.div
-                        key={tx.id}
+                        key={`${tx.transactionHash}-${tx.tokenId}`}
                         initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05 }}
                         className="flex items-center gap-4 p-4 rounded-lg border border-border/50 hover:bg-accent/30 transition-colors"
                       >
-                        <div className={`w-10 h-10 rounded-full ${bgMap[tx.type]} flex items-center justify-center shrink-0`}>
-                          <TxIcon className={`w-5 h-5 ${colorMap[tx.type]}`} />
+                        <div className={`w-10 h-10 rounded-full ${bgMap[tx.type] ?? 'bg-muted'} flex items-center justify-center shrink-0`}>
+                          <TxIcon className={`w-5 h-5 ${colorMap[tx.type] ?? 'text-muted-foreground'}`} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <p className="font-semibold text-sm truncate">{tx.label}</p>
-                            {tx.status === "pending" && (
-                              <Badge variant="secondary" className="text-xs">Pending</Badge>
-                            )}
+                            <Badge variant="outline" className="text-xs">Token #{tx.tokenId.toString()}</Badge>
                           </div>
-                          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <span className="font-mono">{tx.id}</span>
+                          <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
+                            <span className="font-mono">{truncateHash(tx.transactionHash)}</span>
                             <span>·</span>
-                            <span>Block {tx.block.toLocaleString()}</span>
-                            {tx.type === "transfer_in" && tx.from && (
+                            <span>Block {tx.blockNumber.toLocaleString()}</span>
+                            {tx.type === "transfer_in" && (
                               <>
                                 <span>·</span>
-                                <span>From <span className="font-mono">{tx.from}</span></span>
+                                <span>From <span className="font-mono">{truncateAddr(tx.from)}</span></span>
                               </>
                             )}
-                            {tx.type === "transfer_out" && tx.to && (
+                            {tx.type === "transfer_out" && (
                               <>
                                 <span>·</span>
-                                <span>To <span className="font-mono">{tx.to}</span></span>
-                              </>
-                            )}
-                            {tx.type === "vote" && tx.proposal && (
-                              <>
-                                <span>·</span>
-                                <span>{tx.proposal}</span>
+                                <span>To <span className="font-mono">{truncateAddr(tx.to)}</span></span>
                               </>
                             )}
                           </div>
                         </div>
                         <div className="text-right shrink-0">
-                          <p className="text-sm font-medium">{tx.amount}</p>
-                          <p className="text-xs text-muted-foreground">{new Date(tx.date).toLocaleDateString()}</p>
+                          <p className="text-sm font-medium">{tx.value}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {tx.timestamp
+                              ? new Date(tx.timestamp * 1000).toLocaleDateString()
+                              : '—'}
+                          </p>
                         </div>
-                        <Button variant="ghost" size="icon" className="shrink-0" title="View on explorer">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="shrink-0"
+                          title="View on Etherscan"
+                          onClick={() => window.open(`https://etherscan.io/tx/${tx.transactionHash}`, '_blank')}
+                        >
                           <ExternalLink className="w-4 h-4 text-muted-foreground" />
                         </Button>
                       </motion.div>
