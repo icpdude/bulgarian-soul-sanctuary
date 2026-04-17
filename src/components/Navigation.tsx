@@ -167,13 +167,13 @@ export const Navigation = () => {
             <LanguageSwitcher />
             <WalletConnect />
             
-            {isLoggedIn && (
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-primary/10 text-primary">
-                        ED
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                        {initials}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -183,19 +183,30 @@ export const Navigation = () => {
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
-                  {userRole === "admin" && (
+                  {isAdmin && (
                     <DropdownMenuItem onClick={() => navigate("/admin")}>
                       <Shield className="w-4 h-4 mr-2" />
                       Admin Dashboard
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => openModal("auth")}>
-                    Logout
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                className="hidden sm:inline-flex"
+                onClick={() => navigate("/auth")}
+              >
+                Sign in
+              </Button>
             )}
+
             
             {/* Mobile Menu Button */}
             <Button
