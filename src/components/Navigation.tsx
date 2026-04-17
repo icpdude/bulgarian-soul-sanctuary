@@ -2,12 +2,14 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Shield, User } from "lucide-react";
+import { Menu, X, Shield, User, LogOut } from "lucide-react";
 import { Logo } from "./atomic/Logo";
 import { LanguageSwitcher } from "./atomic/LanguageSwitcher";
 import { WalletConnect } from "./atomic/WalletConnect";
 import { NAVIGATION_ITEMS } from "@/config/navigation";
 import { useModal } from "@/contexts/ModalContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +26,23 @@ export const Navigation = () => {
   const { openModal } = useModal();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggedIn] = useState(true); // Mock login state
-  const [userRole] = useState<"admin" | "member">("admin"); // Mock user role
+  const { user, isAdmin, signOut } = useAuth();
+
+  const initials = (user?.user_metadata?.display_name as string | undefined)
+    ?.split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
+    || user?.email?.slice(0, 2).toUpperCase()
+    || "BST";
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({ title: "Signed out" });
+    navigate("/");
+  };
+
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
