@@ -74,26 +74,32 @@ export const FooterSection = () => {
           >
             <h4 className="font-semibold text-foreground mb-4">Quick Links</h4>
             <div className="space-y-2">
-              {["About", "Our Work", "NFT Collection", "DAO Portal", "Support Us"].map((item, index) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase().replace(" ", "-")}`}
-                  className="block text-muted-foreground hover:text-primary transition-colors duration-300 group"
-                  whileHover={{ x: 5 }}
+              {quickLinks.map((item, index) => (
+                <motion.div
+                  key={item.label}
                   initial={{ opacity: 0, x: -10 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.1 + index * 0.05 }}
                 >
-                  <span className="relative">
-                    {item}
-                    <motion.span 
-                      className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300"
-                    />
-                  </span>
-                </motion.a>
+                  <Link
+                    to={item.to}
+                    className="block text-muted-foreground hover:text-primary transition-colors duration-300 group"
+                  >
+                    <span className="relative">
+                      {item.label}
+                      <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />
+                    </span>
+                  </Link>
+                </motion.div>
               ))}
+              <div className="pt-2 mt-2 border-t border-border/40 space-y-1">
+                <Link to="/privacy" className="block text-xs text-muted-foreground hover:text-primary">Privacy</Link>
+                <Link to="/terms" className="block text-xs text-muted-foreground hover:text-primary">Terms</Link>
+                <Link to="/cookies" className="block text-xs text-muted-foreground hover:text-primary">Cookies</Link>
+              </div>
             </div>
+
           </motion.div>
           
           {/* Contact */}
@@ -163,13 +169,9 @@ export const FooterSection = () => {
               NFT License: CC0
             </motion.span>
             <span>•</span>
-            <motion.a 
-              href="/ipfs-gateway" 
-              className="hover:text-primary transition-colors"
-              whileHover={{ scale: 1.05 }}
-            >
+            <Link to="/ipfs-gateway" className="hover:text-primary transition-colors">
               IPFS Gateway
-            </motion.a>
+            </Link>
             <span>•</span>
             <motion.span 
               className="flex items-center gap-1"
