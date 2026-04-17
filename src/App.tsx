@@ -10,6 +10,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ModalManager } from "@/components/modals/ModalManager";
 import { SkipToContent } from "@/components/atomic/SkipToContent";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { CookieConsent } from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import DAODashboard from "./pages/DAODashboard";
@@ -44,6 +45,7 @@ const App = () => (
               <Toaster />
               <Sonner />
               <ModalManager />
+              <CookieConsent />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/auth" element={<Auth />} />
