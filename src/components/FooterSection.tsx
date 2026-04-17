@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { ScrollChainStatus } from "./atomic/ScrollChainStatus";
 import { Heart, Github, Twitter, MessageCircle } from "lucide-react";
 
@@ -8,6 +9,15 @@ const socialLinks = [
   { icon: MessageCircle, href: "https://discord.gg/spiritofbulgaria", label: "Discord" },
   { icon: Github, href: "https://github.com/spiritofbulgaria", label: "GitHub" }
 ];
+
+const quickLinks: { label: string; to: string }[] = [
+  { label: "Mission", to: "/#mission" },
+  { label: "NFT Collection", to: "/#nft" },
+  { label: "DAO Portal", to: "/dao" },
+  { label: "Documentation", to: "/docs" },
+  { label: "Contact", to: "/contact" },
+];
+
 
 export const FooterSection = () => {
   return (

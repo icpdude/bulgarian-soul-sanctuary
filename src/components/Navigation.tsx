@@ -82,7 +82,11 @@ export const Navigation = () => {
   const handleNavigation = (item: typeof NAVIGATION_ITEMS[0]) => {
     // Handle special modal cases
     if (item.id === "membership") {
-      openModal("auth");
+      if (user) {
+        navigate("/profile");
+      } else {
+        navigate("/auth");
+      }
       setIsMenuOpen(false);
       return;
     }
@@ -96,6 +100,7 @@ export const Navigation = () => {
       setIsMenuOpen(false);
       return;
     }
+
 
     // If not on home page, navigate to home first
     if (location.pathname !== "/") {
