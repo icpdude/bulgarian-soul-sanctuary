@@ -50,10 +50,12 @@ const Contact = () => {
 
     setSubmitting(true);
     const { data: userData } = await supabase.auth.getUser();
-    const { error } = await supabase.from("contact_messages").insert({
-      ...parsed.data,
-      user_id: userData.user?.id ?? null,
-    });
+    const { error } = await supabase.from("contact_messages").insert([
+      {
+        ...parsed.data,
+        user_id: userData.user?.id ?? undefined,
+      },
+    ]);
     setSubmitting(false);
 
     if (error) {
