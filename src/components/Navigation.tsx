@@ -2,12 +2,14 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Shield, User } from "lucide-react";
+import { Menu, X, Shield, User, LogOut } from "lucide-react";
 import { Logo } from "./atomic/Logo";
 import { LanguageSwitcher } from "./atomic/LanguageSwitcher";
 import { WalletConnect } from "./atomic/WalletConnect";
 import { NAVIGATION_ITEMS } from "@/config/navigation";
 import { useModal } from "@/contexts/ModalContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "@/hooks/use-toast";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,8 +26,23 @@ export const Navigation = () => {
   const { openModal } = useModal();
   const navigate = useNavigate();
   const location = useLocation();
-  const [isLoggedIn] = useState(true); // Mock login state
-  const [userRole] = useState<"admin" | "member">("admin"); // Mock user role
+  const { user, isAdmin, signOut } = useAuth();
+
+  const initials = (user?.user_metadata?.display_name as string | undefined)
+    ?.split(" ")
+    .map((n) => n[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase()
+    || user?.email?.slice(0, 2).toUpperCase()
+    || "BST";
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({ title: "Signed out" });
+    navigate("/");
+  };
+
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
@@ -65,7 +82,11 @@ export const Navigation = () => {
   const handleNavigation = (item: typeof NAVIGATION_ITEMS[0]) => {
     // Handle special modal cases
     if (item.id === "membership") {
-      openModal("auth");
+      if (user) {
+        navigate("/profile");
+      } else {
+        navigate("/auth");
+      }
       setIsMenuOpen(false);
       return;
     }
@@ -79,6 +100,7 @@ export const Navigation = () => {
       setIsMenuOpen(false);
       return;
     }
+
 
     // If not on home page, navigate to home first
     if (location.pathname !== "/") {
@@ -150,13 +172,13 @@ export const Navigation = () => {
             <LanguageSwitcher />
             <WalletConnect />
             
-            {isLoggedIn && (
+            {user ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" size="icon" className="rounded-full">
                     <Avatar className="w-8 h-8">
-                      <AvatarFallback className="bg-primary/10 text-primary">
-                        ED
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                        {initials}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
@@ -166,19 +188,30 @@ export const Navigation = () => {
                     <User className="w-4 h-4 mr-2" />
                     Profile
                   </DropdownMenuItem>
-                  {userRole === "admin" && (
+                  {isAdmin && (
                     <DropdownMenuItem onClick={() => navigate("/admin")}>
                       <Shield className="w-4 h-4 mr-2" />
                       Admin Dashboard
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => openModal("auth")}>
-                    Logout
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign out
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
+            ) : (
+              <Button
+                variant="default"
+                size="sm"
+                className="hidden sm:inline-flex"
+                onClick={() => navigate("/auth")}
+              >
+                Sign in
+              </Button>
             )}
+
             
             {/* Mobile Menu Button */}
             <Button
