@@ -48,21 +48,22 @@ export const CookieConsent = () => {
           transition={{ duration: 0.35, ease: "easeOut" }}
           className="fixed bottom-4 left-4 right-4 sm:left-6 sm:right-6 md:left-auto md:right-6 md:max-w-md z-[60]"
         >
-          <div className="relative bg-card/95 backdrop-blur-xl border border-primary/20 shadow-ambient rounded-xl p-5">
+          <div className="relative bg-card/95 backdrop-blur-xl border border-primary/20 shadow-elevated rounded-2xl p-5 heritage-border-top overflow-hidden">
+            <div className="absolute inset-0 gradient-mystical opacity-20 pointer-events-none" />
             <button
               onClick={() => persist("rejected")}
               aria-label="Dismiss cookie banner"
-              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors"
+              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground transition-colors z-10"
             >
               <X className="w-4 h-4" />
             </button>
 
-            <div className="flex items-start gap-3 mb-4">
-              <div className="shrink-0 w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
+            <div className="flex items-start gap-3 mb-4 relative">
+              <div className="shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-primary/20 to-rose/10 border border-primary/20 flex items-center justify-center">
                 <Cookie className="w-4 h-4 text-primary" />
               </div>
               <div>
-                <h2 className="font-semibold text-foreground mb-1">We value your privacy</h2>
+                <h2 className="font-display font-semibold text-foreground mb-1">We value your privacy</h2>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   We use essential cookies to run the site and optional analytics to improve it. Read
                   our{" "}
@@ -74,7 +75,7 @@ export const CookieConsent = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 relative">
               <Button
                 variant="outline"
                 size="sm"
