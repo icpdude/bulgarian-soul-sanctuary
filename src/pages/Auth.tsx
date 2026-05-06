@@ -12,6 +12,7 @@ import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { PageHead } from "@/components/PageHead";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const loginSchema = z.object({
   email: z.string().trim().email("Enter a valid email").max(255),
@@ -109,29 +110,34 @@ const Auth = () => {
         description="Sign in or create an account to access membership, governance, and your profile on the Bulgarian Spiritual Treasury platform."
       />
       <div className="min-h-screen w-full flex items-center justify-center bg-background relative overflow-hidden px-6 py-12">
-        <div className="absolute inset-0 gradient-mystical opacity-30" />
-        <div className="absolute inset-0 bg-gradient-dusk opacity-20" />
+        <div className="absolute inset-0 gradient-mystical opacity-25" />
+        <div className="absolute inset-0 bg-gradient-dusk opacity-15" />
+        <div className="absolute inset-0 heritage-pattern opacity-30" />
 
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4 }}
           className="relative z-10 w-full max-w-md"
         >
           <Link
             to="/"
-            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary mb-4 transition-elegant"
           >
             <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
 
-          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-2xl">
-                <Sparkles className="w-6 h-6 text-primary" />
+          <Card className="border-primary/20 bg-card/80 backdrop-blur-xl shadow-elevated heritage-border-top overflow-hidden">
+            <CardHeader className="pb-4">
+              <div className="flex items-center justify-center mb-4 text-primary/70">
+                <BulgarianRose size={28} />
+              </div>
+              <CardTitle className="flex items-center justify-center gap-2 text-2xl font-display tracking-tight text-center">
+                <Sparkles className="w-5 h-5 text-primary" />
                 Join the community
               </CardTitle>
-              <CardDescription>
-                Sign in to your account or register to participate in DAO governance.
+              <CardDescription className="text-center">
+                Sign in or register to participate in DAO governance.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -163,7 +169,7 @@ const Auth = () => {
                       />
                     </div>
                     <Button type="submit" className="w-full" disabled={submitting}>
-                      {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                      {submitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                       Sign in
                     </Button>
                   </form>
@@ -198,12 +204,17 @@ const Auth = () => {
                       <p className="text-xs text-muted-foreground">At least 8 characters.</p>
                     </div>
                     <Button type="submit" className="w-full" disabled={submitting}>
-                      {submitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                      {submitting && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                       Create account
                     </Button>
                   </form>
                 </TabsContent>
               </Tabs>
+              <p className="text-xs text-muted-foreground text-center mt-6">
+                By continuing you agree to our{" "}
+                <Link to="/terms" className="text-primary hover:underline">Terms</Link> and{" "}
+                <Link to="/privacy" className="text-primary hover:underline">Privacy Policy</Link>.
+              </p>
             </CardContent>
           </Card>
         </motion.div>
