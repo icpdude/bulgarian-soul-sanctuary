@@ -32,22 +32,7 @@ export const MissionSection = () => {
       <div className="absolute inset-0 bg-gradient-dusk opacity-20" />
       
       {/* Background Decorative Elements */}
-      <div className="absolute inset-0 opacity-5">
-        <motion.div
-          className="absolute top-20 left-10 text-8xl"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        >
-          📜
-        </motion.div>
-        <motion.div
-          className="absolute bottom-20 right-10 text-6xl"
-          animate={{ rotate: -360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        >
-          🌿
-        </motion.div>
-      </div>
+      <div className="absolute inset-0 heritage-pattern opacity-40 pointer-events-none" />
       
       <div className="max-w-6xl mx-auto relative z-10">
         <motion.div 
@@ -57,17 +42,17 @@ export const MissionSection = () => {
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.h2 
-            className="text-4xl md:text-6xl font-bold mb-8 text-foreground"
+            className="text-4xl md:text-6xl font-bold mb-6 text-foreground tracking-tight"
             variants={itemVariants}
           >
             Our Sacred Mission
           </motion.h2>
           <motion.div 
-            className="w-24 h-1 bg-amber mx-auto mb-8"
+            className="w-20 h-px bg-gradient-to-r from-transparent via-amber to-transparent mx-auto mb-8"
             variants={itemVariants}
             initial={{ width: 0 }}
-            animate={isInView ? { width: 96 } : { width: 0 }}
-            transition={{ duration: 1, delay: 0.5 }}
+            animate={isInView ? { width: 80 } : { width: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
           />
         </motion.div>
         
@@ -98,26 +83,20 @@ export const MissionSection = () => {
                 icon: "👥"
               }
             ].map((item, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
-                className="space-y-6 group"
+                className="space-y-4 group"
                 variants={itemVariants}
-                whileHover={{ x: 10 }}
-                transition={{ type: "spring", stiffness: 300 }}
+                whileHover={{ x: 4 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
               >
                 <div className="flex items-center space-x-4">
-                  <motion.div
-                    className="text-4xl"
-                    animate={{ rotate: [0, 10, -10, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, delay: index * 0.5 }}
-                  >
-                    {item.icon}
-                  </motion.div>
+                  <div className="text-3xl shrink-0">{item.icon}</div>
                   <h3 className={`text-2xl font-semibold ${item.color} group-hover:scale-105 transition-transform`}>
                     {item.title}
                   </h3>
                 </div>
-                <p className="text-lg text-muted-foreground leading-relaxed pl-16">
+                <p className="text-base md:text-lg text-muted-foreground leading-relaxed pl-14">
                   {item.description}
                 </p>
               </motion.div>

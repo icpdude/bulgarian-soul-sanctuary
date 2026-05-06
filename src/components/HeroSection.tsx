@@ -23,7 +23,7 @@ export const HeroSection = () => {
       
       {/* Layered overlay for depth + readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background/85" />
-      <div className="absolute inset-0 bg-gradient-radial-mystical opacity-30" />
+      <div className="absolute inset-0 gradient-mystical opacity-40" />
       
       {/* Subtle heritage rosettes — calm decorative layer */}
       <div className="absolute inset-0 overflow-hidden text-primary/15 pointer-events-none">
