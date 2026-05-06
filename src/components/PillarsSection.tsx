@@ -61,30 +61,7 @@ export const PillarsSection = () => {
 
   return (
     <section ref={ref} className="py-24 px-6 relative overflow-hidden">
-      {/* Background Decorative Elements */}
-      <div className="absolute inset-0 opacity-5">
-        {[...Array(4)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute text-9xl"
-            style={{
-              left: `${20 + i * 20}%`,
-              top: `${20 + (i % 2) * 40}%`,
-            }}
-            animate={{
-              rotate: 360,
-              scale: [1, 1.1, 1],
-            }}
-            transition={{
-              duration: 20 + i * 5,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-          >
-            {['🕯️', '📜', '🤝', '🌍'][i]}
-          </motion.div>
-        ))}
-      </div>
+      <div className="absolute inset-0 heritage-pattern opacity-30 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto relative z-10">
         <motion.div 
@@ -93,7 +70,7 @@ export const PillarsSection = () => {
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.8 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-foreground tracking-tight">
             Four Sacred Pillars
           </h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -112,58 +89,34 @@ export const PillarsSection = () => {
             <motion.div
               key={index}
               variants={cardVariants}
-              whileHover={{ y: -10, scale: 1.02 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              whileHover={{ y: -6 }}
+              transition={{ type: "spring", stiffness: 220, damping: 22 }}
             >
-              <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/50 transition-all duration-300 group cursor-pointer h-full">
+              <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/50 transition-all duration-300 group cursor-pointer h-full heritage-border-top overflow-hidden">
                 <CardContent className="p-8 text-center space-y-4">
-                  <motion.div 
-                    className="text-6xl mb-6 inline-block"
-                    whileHover={{ 
-                      scale: 1.2,
-                      rotate: [0, -10, 10, 0],
-                    }}
-                    transition={{ duration: 0.3 }}
-                    animate={{
-                      y: [-5, 5, -5],
-                    }}
-                    style={{
-                      animationDuration: `${3 + index * 0.5}s`,
-                      animationIterationCount: "infinite",
-                    }}
-                  >
+                  <div className="text-5xl mb-4 inline-block group-hover:scale-110 transition-transform duration-300">
                     {pillar.icon}
-                  </motion.div>
+                  </div>
                   
                   <h3 className="text-xl font-bold mb-2 text-foreground group-hover:text-primary transition-colors">
                     {pillar.title}
                   </h3>
                   
-                  <div className={`text-sm font-medium mb-4 text-${pillar.color}`}>
+                  <div className={`text-xs font-medium uppercase tracking-[0.2em] mb-4 text-${pillar.color}`}>
                     {pillar.subtitle}
                   </div>
                   
-                  <p className="text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-sm text-muted-foreground leading-relaxed mb-6">
                     {pillar.description}
                   </p>
 
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="w-full group-hover:border-primary group-hover:text-primary transition-colors"
                   >
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="w-full group-hover:border-primary group-hover:text-primary transition-colors"
-                    >
-                      Explore {pillar.title}
-                    </Button>
-                  </motion.div>
-                  
-                  <motion.div 
-                    className={`w-12 h-1 bg-${pillar.color} mx-auto transition-all duration-300`}
-                    whileHover={{ width: 64 }}
-                  />
+                    Explore
+                  </Button>
                 </CardContent>
               </Card>
             </motion.div>

@@ -1,11 +1,13 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import heroImage from "@/assets/hero-spiritual-bulgaria.jpg";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 export const HeroSection = () => {
+  const reduce = useReducedMotion();
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const y = useTransform(scrollY, [0, 500], [0, reduce ? 0 : 80]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   return (
@@ -19,65 +21,41 @@ export const HeroSection = () => {
         }}
       />
       
-      {/* Animated Overlay */}
-      <motion.div 
-        className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/40 to-background/60"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      />
+      {/* Layered overlay for depth + readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/55 to-background/85" />
+      <div className="absolute inset-0 gradient-mystical opacity-40" />
       
-      {/* Floating Cultural Symbols */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(6)].map((_, i) => (
+      {/* Subtle heritage rosettes — calm decorative layer */}
+      <div className="absolute inset-0 overflow-hidden text-primary/15 pointer-events-none">
+        {[
+          { left: "8%", top: "18%", size: 70, delay: 0 },
+          { left: "85%", top: "22%", size: 90, delay: 1.2 },
+          { left: "12%", top: "75%", size: 110, delay: 0.6 },
+          { left: "82%", top: "78%", size: 60, delay: 1.8 },
+        ].map((p, i) => (
           <motion.div
             key={i}
-            className="absolute text-foreground/10 text-6xl"
-            style={{
-              left: `${20 + i * 15}%`,
-              top: `${30 + i * 10}%`,
-            }}
-            animate={{
-              y: [-20, 20, -20],
-              rotate: [0, 5, -5, 0],
-            }}
-            transition={{
-              duration: 6 + i,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
+            className="absolute"
+            style={{ left: p.left, top: p.top }}
+            animate={reduce ? undefined : { y: [-6, 6, -6], opacity: [0.5, 0.85, 0.5] }}
+            transition={{ duration: 8 + i, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
           >
-            {['📜', '🔥', '🌿', '✨', '📖', '🎭'][i]}
+            <BulgarianRose size={p.size} />
           </motion.div>
         ))}
       </div>
       
-      {/* Enhanced Mystical Glow Effects */}
+      {/* Soft glow halos */}
       <div className="absolute inset-0">
-        <motion.div 
-          className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-[28rem] h-[28rem] bg-primary/15 rounded-full blur-3xl"
+          animate={reduce ? undefined : { opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
-        <motion.div 
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-rose/20 rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            opacity: [0.6, 0.3, 0.6],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2,
-          }}
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-[28rem] h-[28rem] bg-rose/15 rounded-full blur-3xl"
+          animate={reduce ? undefined : { opacity: [0.5, 0.3, 0.5] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 3 }}
         />
       </div>
       
@@ -86,109 +64,92 @@ export const HeroSection = () => {
         className="relative z-10 text-center max-w-4xl mx-auto px-6"
         style={{ opacity }}
       >
-        <motion.h1 
-          className="text-6xl md:text-8xl font-bold mb-6 text-gradient-dawn"
-          initial={{ opacity: 0, y: 50 }}
+        <motion.div
+          className="inline-flex items-center gap-3 mb-6 text-primary/80"
+          initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <motion.span
-            className="inline-block"
-            animate={{
-              textShadow: [
-                "0 0 20px rgba(255,255,255,0.3)",
-                "0 0 40px rgba(255,255,255,0.6)",
-                "0 0 20px rgba(255,255,255,0.3)",
-              ],
-            }}
-            transition={{
-              duration: 3,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          >
-            Bulgarian Spiritual Treasury
-          </motion.span>
-        </motion.h1>
-        
-        <motion.p 
-          className="text-xl md:text-2xl mb-8 text-foreground/90 font-light"
+          <span className="h-px w-10 bg-gradient-to-r from-transparent to-primary/50" />
+          <BulgarianRose size={20} />
+          <span className="text-xs uppercase tracking-[0.5em] text-muted-foreground font-display">
+            Foundation · Est. 2024
+          </span>
+          <BulgarianRose size={20} />
+          <span className="h-px w-10 bg-gradient-to-l from-transparent to-primary/50" />
+        </motion.div>
+        <motion.h1
+          className="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 text-gradient-dawn tracking-tight leading-[1.05]"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.7 }}
+          transition={{ duration: 0.8, delay: 0.35 }}
+        >
+          Bulgarian Spiritual Treasury
+        </motion.h1>
+        
+        <motion.p
+          className="text-xl md:text-2xl mb-6 text-foreground/90 font-display italic"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.55 }}
         >
           A digital sanctuary for Bulgarian soul and memory
         </motion.p>
         
-        <motion.p 
-          className="text-lg mb-12 text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-          initial={{ opacity: 0, y: 20 }}
+        <motion.p
+          className="text-base md:text-lg mb-12 text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.9 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
         >
-          Connecting ancestral wisdom with Web3 permanence. Preserving our cultural heritage through blockchain technology and community governance.
+          Connecting ancestral wisdom with Web3 permanence. Preserving our cultural heritage through
+          blockchain technology and community governance.
         </motion.p>
         
-        <motion.div 
-          className="flex flex-col sm:flex-row gap-6 justify-center"
-          initial={{ opacity: 0, y: 20 }}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-4 justify-center"
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 1.1 }}
+          transition={{ duration: 0.6, delay: 0.85 }}
         >
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+          <Button
+            variant="spiritual"
+            size="lg"
+            className="px-8 py-6 text-base hover:scale-[1.02] transition-elegant"
+            onClick={() => document.getElementById('dao')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            <Button 
-              variant="spiritual"
-              size="lg" 
-              className="px-8 py-4 text-lg relative overflow-hidden group"
-              onClick={() => document.getElementById('dao')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              <span className="relative z-10">Join the DAO</span>
-              <motion.div
-                className="absolute inset-0 bg-white/20"
-                initial={{ x: "-100%" }}
-                whileHover={{ x: "100%" }}
-                transition={{ duration: 0.6 }}
-              />
-            </Button>
-          </motion.div>
-          
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            Join the DAO
+          </Button>
+          <Button
+            variant="mystic"
+            size="lg"
+            className="px-8 py-6 text-base hover:scale-[1.02] transition-elegant"
+            onClick={() => document.getElementById('nft')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            <Button 
-              variant="mystic"
-              size="lg" 
-              className="px-8 py-4 text-lg"
-              onClick={() => document.getElementById('nft')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Explore Archives
-            </Button>
-          </motion.div>
+            Explore Archives
+          </Button>
         </motion.div>
       </motion.div>
       
       {/* Animated Scroll Indicator */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-foreground/70 cursor-pointer"
-        initial={{ opacity: 0, y: 20 }}
+      <motion.button
+        type="button"
+        aria-label="Scroll to mission"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-foreground/60 hover:text-primary transition-colors"
+        initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 1.5 }}
+        transition={{ duration: 0.6, delay: 1.1 }}
         onClick={() => document.getElementById('mission')?.scrollIntoView({ behavior: 'smooth' })}
-        whileHover={{ scale: 1.1 }}
       >
         <motion.div 
           className="flex flex-col items-center"
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
+          animate={reduce ? undefined : { y: [0, 6, 0] }}
+          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         >
-          <span className="text-sm mb-2">Scroll to explore</span>
-          <ChevronDown className="w-6 h-6" />
+          <span className="text-xs uppercase tracking-[0.3em] mb-2">Scroll</span>
+          <ChevronDown className="w-5 h-5" />
         </motion.div>
-      </motion.div>
+      </motion.button>
     </section>
   );
 };

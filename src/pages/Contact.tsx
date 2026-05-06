@@ -6,6 +6,7 @@ import { z } from "zod";
 import { Navigation } from "@/components/Navigation";
 import { FooterSection } from "@/components/FooterSection";
 import { PageHead } from "@/components/PageHead";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,14 +98,20 @@ const Contact = () => {
             </Link>
 
             <motion.header
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
               className="text-center mb-12"
             >
-              <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient-dawn mb-3">
+              <div className="inline-flex items-center gap-3 text-primary/70 mb-4">
+                <span className="h-px w-10 bg-gradient-to-r from-transparent to-primary/40" />
+                <BulgarianRose size={20} />
+                <span className="h-px w-10 bg-gradient-to-l from-transparent to-primary/40" />
+              </div>
+              <h1 className="text-4xl md:text-5xl font-display font-bold text-gradient-dawn mb-3 tracking-tight">
                 Get in touch
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
                 Questions about membership, governance, partnerships, or our cultural mission? Send
                 us a message and a steward will reply.
               </p>
@@ -112,7 +119,7 @@ const Contact = () => {
 
             <div className="grid lg:grid-cols-3 gap-6">
               <aside className="space-y-4">
-                <Card className="border-primary/20 bg-card/50 backdrop-blur">
+                <Card className="border-primary/20 bg-card/50 backdrop-blur hover:border-primary/40 transition-colors">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
                       <Mail className="w-4 h-4 text-primary" /> Email
@@ -127,26 +134,32 @@ const Contact = () => {
                     </a>
                   </CardContent>
                 </Card>
-                <Card className="border-primary/20 bg-card/50 backdrop-blur">
+                <Card className="border-primary/20 bg-card/50 backdrop-blur hover:border-primary/40 transition-colors">
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2 text-base">
                       <MessageCircle className="w-4 h-4 text-primary" /> Community
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2 text-sm">
-                    <a href="https://t.me/spiritofbulgaria" className="block text-muted-foreground hover:text-primary">
+                    <a href="https://t.me/spiritofbulgaria" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors">
                       Telegram
                     </a>
-                    <a href="https://discord.gg/spiritofbulgaria" className="block text-muted-foreground hover:text-primary">
+                    <a href="https://discord.gg/spiritofbulgaria" target="_blank" rel="noopener noreferrer" className="block text-muted-foreground hover:text-primary transition-colors">
                       Discord
                     </a>
                   </CardContent>
                 </Card>
+                <Card className="border-primary/10 bg-gradient-to-br from-card/50 to-primary/5 backdrop-blur">
+                  <CardContent className="py-4 text-xs text-muted-foreground leading-relaxed">
+                    We typically respond within <strong className="text-foreground">2–3 days</strong>.
+                    For urgent governance matters, reach a steward on Telegram.
+                  </CardContent>
+                </Card>
               </aside>
 
-              <Card className="lg:col-span-2 border-primary/20 bg-card/50 backdrop-blur">
+              <Card className="lg:col-span-2 border-primary/20 bg-card/60 backdrop-blur shadow-elevated heritage-border-top overflow-hidden">
                 <CardHeader>
-                  <CardTitle>Send a message</CardTitle>
+                  <CardTitle className="font-display tracking-tight">Send a message</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-4" noValidate>

@@ -11,6 +11,7 @@ import { TreasuryManagement } from "@/components/admin/TreasuryManagement";
 import { MemberManagement } from "@/components/admin/MemberManagement";
 import { TokenGate } from "@/components/TokenGate";
 import { MembershipTier } from "@/contracts/MembershipNFTABI";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const AdminDashboard = () => {
   useEffect(() => {
@@ -30,16 +31,24 @@ const AdminDashboard = () => {
       <main className="container mx-auto px-4 pt-32 pb-20">
         <TokenGate requiredTier={MembershipTier.Gold} fallbackMessage="Admin Dashboard requires Gold tier membership or higher.">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.4 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <Shield className="w-8 h-8 text-primary" />
-              <h1 className="text-4xl font-bold bg-gradient-aurora bg-clip-text text-transparent">
-                Admin Dashboard
-              </h1>
-            </div>
+            <header className="mb-10 flex items-center justify-between gap-6 flex-wrap">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary/20 to-rose/10 border border-primary/20 flex items-center justify-center shadow-glow">
+                  <Shield className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-1">Foundation</p>
+                  <h1 className="text-3xl md:text-4xl font-display font-bold tracking-tight bg-gradient-aurora bg-clip-text text-transparent">
+                    Admin Dashboard
+                  </h1>
+                </div>
+              </div>
+              <BulgarianRose size={36} className="text-primary/40 hidden sm:block" />
+            </header>
 
             <Tabs defaultValue="proposals" className="w-full">
               <TabsList className="grid w-full grid-cols-3 mb-8">
