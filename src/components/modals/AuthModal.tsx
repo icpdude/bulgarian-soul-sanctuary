@@ -6,8 +6,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useModal } from "@/contexts/ModalContext";
-import { Mail, Lock, User, Sparkles } from "lucide-react";
+import { Mail, Lock, User } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 export const AuthModal = () => {
   const { activeModal, closeModal } = useModal();
@@ -45,16 +46,21 @@ export const AuthModal = () => {
 
   return (
     <Dialog open={activeModal === 'auth'} onOpenChange={(open) => !open && closeModal()}>
-      <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-background via-background to-background/95 border-primary/20">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-mystical bg-clip-text text-transparent flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-primary" />
-            Join the Community
-          </DialogTitle>
-          <DialogDescription className="text-muted-foreground">
-            Connect with a global network of spiritual seekers and DAO members
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-[500px] bg-gradient-to-br from-background via-background to-background/95 border-primary/20 overflow-hidden p-0">
+        <div className="heritage-border-top" />
+        <div className="p-6 space-y-6">
+          <DialogHeader className="text-left">
+            <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground mb-2">
+              Foundation · Sanctuary
+            </p>
+            <DialogTitle className="text-2xl font-display font-bold tracking-tight bg-gradient-mystical bg-clip-text text-transparent flex items-center gap-3">
+              <BulgarianRose size={22} className="text-primary/70" />
+              Join the Community
+            </DialogTitle>
+            <DialogDescription className="text-muted-foreground">
+              Connect with a global network of spiritual seekers and DAO members
+            </DialogDescription>
+          </DialogHeader>
 
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
@@ -153,7 +159,8 @@ export const AuthModal = () => {
               </Button>
             </form>
           </TabsContent>
-        </Tabs>
+          </Tabs>
+        </div>
       </DialogContent>
     </Dialog>
   );
