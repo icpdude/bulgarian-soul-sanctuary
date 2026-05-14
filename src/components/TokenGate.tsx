@@ -6,6 +6,7 @@ import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
 import { useAccount } from "wagmi";
 import { useModal } from "@/contexts/ModalContext";
 import { MembershipTier } from "@/contracts/MembershipNFTABI";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 interface TokenGateProps {
   children: React.ReactNode;
@@ -30,12 +31,17 @@ export const TokenGate = ({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-          className="w-10 h-10 border-2 border-primary border-t-transparent rounded-full"
-        />
+          transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
+          className="text-primary/60"
+        >
+          <BulgarianRose size={56} />
+        </motion.div>
+        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
+          Verifying membership
+        </p>
       </div>
     );
   }
@@ -68,25 +74,31 @@ interface GateFallbackProps {
 
 const GateFallback = ({ type, message, onAction }: GateFallbackProps) => (
   <motion.div
-    initial={{ opacity: 0, scale: 0.95 }}
-    animate={{ opacity: 1, scale: 1 }}
+    initial={{ opacity: 0, y: 8 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4, ease: "easeOut" }}
     className="flex items-center justify-center min-h-[400px] px-6"
   >
-    <Card className="max-w-md w-full border-primary/20 bg-card/50 backdrop-blur-sm">
+    <Card variant="ethereal" className="max-w-md w-full overflow-hidden">
+      <div className="heritage-border-top" />
       <CardContent className="pt-8 pb-8 text-center space-y-4">
-        <div className="w-16 h-16 mx-auto rounded-full bg-primary/10 flex items-center justify-center">
+        <div className="relative w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-primary/15 via-rose/10 to-amber/10 flex items-center justify-center border border-primary/20 shadow-glow">
+          <BulgarianRose size={56} className="absolute text-primary/20" />
           {type === "wallet" ? (
-            <Shield className="w-8 h-8 text-primary" />
+            <Shield className="w-7 h-7 text-primary relative" />
           ) : (
-            <Lock className="w-8 h-8 text-primary" />
+            <Lock className="w-7 h-7 text-primary relative" />
           )}
         </div>
 
-        <h2 className="text-2xl font-bold">
+        <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground">
+          Sacred Threshold
+        </p>
+        <h2 className="text-2xl font-display font-bold tracking-tight">
           {type === "wallet" ? "Connect Your Wallet" : "Membership Required"}
         </h2>
 
-        <p className="text-muted-foreground">
+        <p className="text-muted-foreground leading-relaxed">
           {type === "wallet"
             ? "Connect your wallet to verify your membership status."
             : message}

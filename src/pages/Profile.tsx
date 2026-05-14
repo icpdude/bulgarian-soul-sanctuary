@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
 import { useTransactionHistory, type OnChainTransaction } from "@/hooks/useTransactionHistory";
 import { getMembershipTierLabel, getMembershipTierColor, MembershipTier } from "@/contracts/MembershipNFTABI";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const tierIcons: Record<number, typeof Crown> = {
   [MembershipTier.Basic]: Shield,
@@ -90,13 +91,16 @@ const Profile = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="max-w-5xl mx-auto"
         >
           {/* Profile Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-8">
+          <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-3">
+            Foundation · Member
+          </p>
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-4">
             <div className="relative">
-              <Avatar className="w-24 h-24 border-4 border-primary/20">
+              <Avatar className="w-24 h-24 border-4 border-primary/30 shadow-glow">
                 <AvatarFallback className="bg-gradient-aurora text-white text-2xl">
                   {userData.name.split(' ').map(n => n[0]).join('')}
                 </AvatarFallback>
@@ -108,7 +112,7 @@ const Profile = () => {
               )}
             </div>
             <div className="flex-1">
-              <h1 className="text-3xl font-bold bg-gradient-aurora bg-clip-text text-transparent mb-2">
+              <h1 className="text-3xl md:text-4xl font-display font-bold tracking-tight bg-gradient-aurora bg-clip-text text-transparent mb-2">
                 {userData.name}
               </h1>
               {isConnected && address && (
@@ -142,7 +146,9 @@ const Profile = () => {
                 )}
               </div>
             </div>
+            <BulgarianRose size={40} className="text-primary/30 hidden md:block" />
           </div>
+          <div className="heritage-border-top w-full mb-8" />
 
           {/* Membership Tier Card */}
           {currentTier !== undefined && (

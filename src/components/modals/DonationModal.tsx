@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useModal } from "@/contexts/ModalContext";
 import { Heart, CreditCard, Wallet, Bitcoin, DollarSign, Euro, Coins } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const amounts = [10, 25, 50, 100, 250, 500];
 
@@ -37,9 +38,15 @@ export const DonationModal = () => {
 
   return (
     <Dialog open={activeModal === 'donation'} onOpenChange={(open) => !open && closeModal()}>
-      <DialogContent className="sm:max-w-[550px] bg-gradient-to-br from-background via-background to-background/95 border-primary/20">
-        <DialogHeader>
-          <DialogTitle className="text-2xl font-bold bg-gradient-heritage bg-clip-text text-transparent flex items-center gap-2">
+      <DialogContent className="sm:max-w-[550px] bg-gradient-to-br from-background via-background to-background/95 border-primary/20 overflow-hidden p-0">
+        <div className="heritage-border-top" />
+        <div className="p-6">
+        <DialogHeader className="text-left mb-2">
+          <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground mb-2 flex items-center gap-2">
+            <BulgarianRose size={14} className="text-primary/60" />
+            Foundation · Offering
+          </p>
+          <DialogTitle className="text-2xl font-display font-bold tracking-tight bg-gradient-heritage bg-clip-text text-transparent flex items-center gap-2">
             <Heart className="w-6 h-6 text-primary fill-primary/20" />
             Support Our Mission
           </DialogTitle>
@@ -185,6 +192,7 @@ export const DonationModal = () => {
               </div>
             </motion.div>
           )}
+        </div>
         </div>
       </DialogContent>
     </Dialog>
