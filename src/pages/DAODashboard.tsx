@@ -20,6 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "@/hooks/use-toast";
 import { trackPageView, trackVote, trackWalletConnection } from "@/lib/analytics";
 import { TokenGate } from "@/components/TokenGate";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const proposals = [
   {
@@ -114,18 +115,24 @@ const DAODashboard = () => {
       {/* Hero Section */}
       <section className="relative py-20 px-6 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-mystical opacity-10" />
+        <div className="absolute inset-0 heritage-pattern opacity-[0.04] pointer-events-none" />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: "easeOut" }}
           className="max-w-7xl mx-auto relative z-10"
         >
           <div className="text-center mb-12">
-            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20">
-              Sacred Council
-            </Badge>
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-aurora bg-clip-text text-transparent">
+            <div className="inline-flex items-center gap-3 mb-5 px-4 py-2 rounded-full bg-primary/10 border border-primary/20">
+              <BulgarianRose size={16} className="text-primary/70" />
+              <span className="text-[11px] uppercase tracking-[0.35em] text-primary font-medium">
+                Sacred Council
+              </span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-display font-bold tracking-tight mb-4 bg-gradient-aurora bg-clip-text text-transparent">
               DAO Dashboard
             </h1>
+            <div className="heritage-border-top w-32 mx-auto mb-6" />
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
               Participate in decisions, vote on proposals, and shape the future of Bulgarian spiritual heritage
             </p>
@@ -158,10 +165,9 @@ const DAODashboard = () => {
                   key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.05, y: -5 }}
+                  transition={{ delay: index * 0.08, duration: 0.4, ease: "easeOut" }}
                 >
-                  <Card className="bg-card/30 backdrop-blur-sm rounded-xl text-center border border-border">
+                  <Card variant="ethereal" className="text-center">
                     <CardContent className="p-6">
                       <Icon className={`w-12 h-12 ${stat.color} mx-auto mb-3`} />
                       <div className={`text-3xl font-bold ${stat.color} mb-2`}>

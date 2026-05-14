@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { BulgarianRose } from "@/components/atomic/BulgarianRose";
 
 const Documentation = () => {
   const navigate = useNavigate();
@@ -204,18 +205,26 @@ const Documentation = () => {
       {/* Hero Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-background to-background" />
+        <div className="absolute inset-0 heritage-pattern opacity-[0.04] pointer-events-none" />
         
         <div className="container mx-auto px-4 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
             className="text-center max-w-3xl mx-auto"
           >
-            <BookOpen className="w-16 h-16 mx-auto mb-6 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <div className="relative w-20 h-20 mx-auto mb-6 flex items-center justify-center">
+              <BulgarianRose size={80} className="absolute text-primary/25" />
+              <BookOpen className="w-9 h-9 text-primary relative" />
+            </div>
+            <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground mb-3">
+              Foundation · Codex
+            </p>
+            <h1 className="text-4xl md:text-5xl font-display font-bold tracking-tight mb-4 bg-gradient-aurora bg-clip-text text-transparent">
               DAO Documentation
             </h1>
+            <div className="heritage-border-top w-32 mx-auto mb-6" />
             <p className="text-lg text-muted-foreground">
               Everything you need to know about participating in our decentralized autonomous organization, 
               from governance mechanisms to treasury management.
@@ -237,7 +246,7 @@ const Documentation = () => {
                 transition={{ delay: index * 0.1 }}
                 className="group"
               >
-                <Card className="p-4 text-center hover:shadow-lg transition-all duration-300 cursor-pointer border-border/40">
+                <Card variant="ethereal" className="p-4 text-center cursor-pointer">
                   <section.icon className={`w-8 h-8 mx-auto mb-2 ${section.color} group-hover:scale-110 transition-transform`} />
                   <p className="text-sm font-medium">{section.title}</p>
                 </Card>
@@ -260,12 +269,16 @@ const Documentation = () => {
               transition={{ delay: sectionIndex * 0.1 }}
               className="mb-16 scroll-mt-24"
             >
-              <Card className="p-8 border-border/40">
+              <Card variant="spiritual" className="p-8 overflow-hidden">
+                <div className="heritage-border-top -mx-8 -mt-8 mb-6" />
                 <div className="flex items-center gap-4 mb-6">
                   <div className={`p-3 rounded-lg bg-primary/10`}>
                     <section.icon className={`w-8 h-8 ${section.color}`} />
                   </div>
-                  <h2 className="text-3xl font-bold">{section.title}</h2>
+                  <div>
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-1">Section</p>
+                    <h2 className="text-3xl font-display font-bold tracking-tight">{section.title}</h2>
+                  </div>
                 </div>
 
                 <Separator className="mb-6" />
@@ -308,8 +321,9 @@ const Documentation = () => {
             viewport={{ once: true }}
             className="mt-16"
           >
-            <Card className="p-8 border-border/40">
-              <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+            <Card variant="spiritual" className="p-8 overflow-hidden">
+              <div className="heritage-border-top -mx-8 -mt-8 mb-6" />
+              <h2 className="text-3xl font-display font-bold tracking-tight mb-6 flex items-center gap-3">
                 <FileText className="w-8 h-8 text-primary" />
                 Frequently Asked Questions
               </h2>
@@ -333,8 +347,10 @@ const Documentation = () => {
             viewport={{ once: true }}
             className="mt-12 text-center"
           >
-            <Card className="p-8 bg-gradient-to-br from-primary/10 via-background to-secondary/10 border-border/40">
-              <h3 className="text-2xl font-bold mb-4">Ready to Get Started?</h3>
+            <Card variant="divine" className="p-8 overflow-hidden">
+              <div className="heritage-border-top -mx-8 -mt-8 mb-6" />
+              <BulgarianRose size={36} className="mx-auto mb-4 text-primary/40" />
+              <h3 className="text-2xl font-display font-bold tracking-tight mb-4">Ready to Get Started?</h3>
               <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
                 Join our community and start participating in the future of decentralized governance.
               </p>
