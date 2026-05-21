@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { Shield, Lock, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -7,6 +6,8 @@ import { useAccount } from "wagmi";
 import { useModal } from "@/contexts/ModalContext";
 import { MembershipTier } from "@/contracts/MembershipNFTABI";
 import { BulgarianRose } from "@/components/atomic/BulgarianRose";
+import { LoadingState } from "@/components/atomic/LoadingState";
+import { motion } from "framer-motion";
 
 interface TokenGateProps {
   children: React.ReactNode;
@@ -30,20 +31,7 @@ export const TokenGate = ({
   }
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
-        <motion.div
-          animate={{ rotate: 360 }}
-          transition={{ duration: 16, repeat: Infinity, ease: "linear" }}
-          className="text-primary/60"
-        >
-          <BulgarianRose size={56} />
-        </motion.div>
-        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground">
-          Verifying membership
-        </p>
-      </div>
-    );
+    return <LoadingState label="Verifying membership" size={56} minHeight="min-h-[400px]" />;
   }
 
   if (!isConnected) {

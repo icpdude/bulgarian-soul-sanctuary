@@ -54,7 +54,7 @@ export const AuthModal = () => {
               Foundation · Sanctuary
             </p>
             <DialogTitle className="text-2xl font-display font-bold tracking-tight bg-gradient-mystical bg-clip-text text-transparent flex items-center gap-3">
-              <BulgarianRose size={22} className="text-primary/70" />
+              <BulgarianRose size={22} className="text-primary/70" aria-hidden="true" />
               Join the Community
             </DialogTitle>
             <DialogDescription className="text-muted-foreground">
@@ -63,21 +63,22 @@ export const AuthModal = () => {
           </DialogHeader>
 
         <Tabs defaultValue="login" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
+          <TabsList className="grid w-full grid-cols-2" aria-label="Authentication method">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="register">Register</TabsTrigger>
           </TabsList>
 
           <TabsContent value="login" className="space-y-4">
-            <form onSubmit={handleLogin} className="space-y-4">
+            <form onSubmit={handleLogin} className="space-y-4" aria-label="Login form">
               <div className="space-y-2">
                 <Label htmlFor="login-email" className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4" aria-hidden="true" />
                   Email
                 </Label>
                 <Input
                   id="login-email"
                   type="email"
+                  autoComplete="email"
                   placeholder="your@email.com"
                   required
                   className="bg-background/50"
@@ -85,12 +86,13 @@ export const AuthModal = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="login-password" className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" />
+                  <Lock className="w-4 h-4" aria-hidden="true" />
                   Password
                 </Label>
                 <Input
                   id="login-password"
                   type="password"
+                  autoComplete="current-password"
                   placeholder="••••••••"
                   required
                   className="bg-background/50"
@@ -101,6 +103,7 @@ export const AuthModal = () => {
                 className="w-full" 
                 variant="spiritual"
                 disabled={isLoading}
+                aria-busy={isLoading}
               >
                 {isLoading ? "Signing in..." : "Sign In"}
               </Button>
@@ -108,15 +111,16 @@ export const AuthModal = () => {
           </TabsContent>
 
           <TabsContent value="register" className="space-y-4">
-            <form onSubmit={handleRegister} className="space-y-4">
+            <form onSubmit={handleRegister} className="space-y-4" aria-label="Registration form">
               <div className="space-y-2">
                 <Label htmlFor="register-name" className="flex items-center gap-2">
-                  <User className="w-4 h-4" />
+                  <User className="w-4 h-4" aria-hidden="true" />
                   Full Name
                 </Label>
                 <Input
                   id="register-name"
                   type="text"
+                  autoComplete="name"
                   placeholder="Your name"
                   required
                   className="bg-background/50"
@@ -124,12 +128,13 @@ export const AuthModal = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="register-email" className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
+                  <Mail className="w-4 h-4" aria-hidden="true" />
                   Email
                 </Label>
                 <Input
                   id="register-email"
                   type="email"
+                  autoComplete="email"
                   placeholder="your@email.com"
                   required
                   className="bg-background/50"
@@ -137,23 +142,29 @@ export const AuthModal = () => {
               </div>
               <div className="space-y-2">
                 <Label htmlFor="register-password" className="flex items-center gap-2">
-                  <Lock className="w-4 h-4" />
+                  <Lock className="w-4 h-4" aria-hidden="true" />
                   Password
                 </Label>
                 <Input
                   id="register-password"
                   type="password"
+                  autoComplete="new-password"
                   placeholder="••••••••"
                   required
                   minLength={8}
                   className="bg-background/50"
+                  aria-describedby="register-password-hint"
                 />
+                <p id="register-password-hint" className="text-xs text-muted-foreground">
+                  Minimum 8 characters.
+                </p>
               </div>
               <Button 
                 type="submit" 
                 className="w-full" 
                 variant="spiritual"
                 disabled={isLoading}
+                aria-busy={isLoading}
               >
                 {isLoading ? "Creating account..." : "Create Account"}
               </Button>
