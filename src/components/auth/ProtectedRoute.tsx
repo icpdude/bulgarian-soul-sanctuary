@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { ReactNode } from "react";
-import { Loader2 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
+import { LoadingState } from "@/components/atomic/LoadingState";
 
 interface ProtectedRouteProps {
   children: ReactNode;
@@ -15,7 +15,11 @@ export const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRout
   if (loading || (requireAdmin && rolesLoading)) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <Loader2 className="w-6 h-6 text-primary animate-spin" />
+        <LoadingState
+          label={requireAdmin ? "Verifying access" : "Loading"}
+          size={52}
+          minHeight="min-h-0"
+        />
       </div>
     );
   }
