@@ -23,6 +23,7 @@ import { useMembershipStatus, useNFTCollection } from "@/hooks/useNFT";
 import { useTransactionHistory, type OnChainTransaction } from "@/hooks/useTransactionHistory";
 import { getMembershipTierLabel, getMembershipTierColor, MembershipTier } from "@/contracts/MembershipNFTABI";
 import { BulgarianRose } from "@/components/atomic/BulgarianRose";
+import { LoadingState, EmptyState } from "@/components/atomic/LoadingState";
 
 const tierIcons: Record<number, typeof Crown> = {
   [MembershipTier.Basic]: Shield,
