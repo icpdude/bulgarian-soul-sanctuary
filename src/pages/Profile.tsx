@@ -275,29 +275,33 @@ const Profile = () => {
                 </CardHeader>
                 <CardContent className="space-y-2">
                   {txLoading && (
-                    <div className="flex items-center justify-center py-12 text-muted-foreground">
-                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary mr-3" />
-                      Fetching on-chain events…
-                    </div>
+                    <LoadingState
+                      label="Fetching on-chain events"
+                      size={44}
+                      minHeight="min-h-[180px]"
+                    />
                   )}
 
                   {txError && (
-                    <div className="text-center py-8 text-destructive">
+                    <div
+                      role="alert"
+                      className="text-center py-8 text-destructive"
+                    >
                       <p className="font-medium mb-1">Error loading transactions</p>
                       <p className="text-sm text-muted-foreground">{txError}</p>
                     </div>
                   )}
 
                   {!txLoading && !txError && onChainTxs.length === 0 && (
-                    <div className="text-center py-12">
-                      <ReceiptText className="w-10 h-10 mx-auto mb-3 text-muted-foreground" />
-                      <p className="font-semibold mb-1">No transactions found</p>
-                      <p className="text-sm text-muted-foreground">
-                        {txConfigured
-                          ? "Mint a membership NFT to see your first transaction here"
-                          : "Set VITE_MEMBERSHIP_NFT_ADDRESS to enable on-chain history"}
-                      </p>
-                    </div>
+                    <EmptyState
+                      title="No transactions found"
+                      description={
+                        txConfigured
+                          ? "Mint a membership NFT to see your first transaction here."
+                          : "Set VITE_MEMBERSHIP_NFT_ADDRESS to enable on-chain history."
+                      }
+                      icon={<ReceiptText className="w-5 h-5" />}
+                    />
                   )}
 
                   {!txLoading && onChainTxs.map((tx, index) => {
