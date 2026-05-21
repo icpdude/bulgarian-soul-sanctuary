@@ -43,11 +43,11 @@ export const DonationModal = () => {
         <div className="p-6">
         <DialogHeader className="text-left mb-2">
           <p className="text-[10px] uppercase tracking-[0.35em] text-muted-foreground mb-2 flex items-center gap-2">
-            <BulgarianRose size={14} className="text-primary/60" />
+            <BulgarianRose size={14} className="text-primary/60" aria-hidden="true" />
             Foundation · Offering
           </p>
           <DialogTitle className="text-2xl font-display font-bold tracking-tight bg-gradient-heritage bg-clip-text text-transparent flex items-center gap-2">
-            <Heart className="w-6 h-6 text-primary fill-primary/20" />
+            <Heart className="w-6 h-6 text-primary fill-primary/20" aria-hidden="true" />
             Support Our Mission
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
@@ -57,14 +57,19 @@ export const DonationModal = () => {
 
         <div className="space-y-6 py-4">
           {/* Amount Selection */}
-          <div className="space-y-3">
-            <Label className="text-base font-semibold">Select Amount (EUR)</Label>
-            <div className="grid grid-cols-3 gap-2">
+          <div className="space-y-3" role="group" aria-labelledby="donation-amount-label">
+            <Label id="donation-amount-label" className="text-base font-semibold">
+              Select Amount (EUR)
+            </Label>
+            <div className="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Preset donation amounts">
               {amounts.map((amount) => (
                 <Button
                   key={amount}
                   variant={selectedAmount === amount ? "spiritual" : "outline"}
                   className="h-12"
+                  role="radio"
+                  aria-checked={selectedAmount === amount}
+                  aria-label={`Donate ${amount} euros`}
                   onClick={() => {
                     setSelectedAmount(amount);
                     setCustomAmount("");
@@ -77,7 +82,7 @@ export const DonationModal = () => {
             <div className="space-y-2">
               <Label htmlFor="custom-amount">Custom Amount</Label>
               <div className="relative">
-                <Euro className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Euro className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
                 <Input
                   id="custom-amount"
                   type="number"
@@ -89,6 +94,8 @@ export const DonationModal = () => {
                   }}
                   className="pl-10 bg-background/50"
                   min="1"
+                  inputMode="decimal"
+                  aria-label="Custom donation amount in euros"
                 />
               </div>
             </div>
@@ -96,7 +103,7 @@ export const DonationModal = () => {
 
           {/* Payment Methods */}
           <Tabs defaultValue="card" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-3" aria-label="Payment method">
               <TabsTrigger value="card" className="text-xs">Card</TabsTrigger>
               <TabsTrigger value="crypto" className="text-xs">Crypto</TabsTrigger>
               <TabsTrigger value="wallet" className="text-xs">Wallet</TabsTrigger>
@@ -114,8 +121,9 @@ export const DonationModal = () => {
                     className="w-full h-auto py-4 justify-start gap-4 hover:bg-primary/5"
                     onClick={() => handleDonate('Credit Card')}
                     disabled={!currentAmount || isProcessing}
+                    aria-busy={isProcessing}
                   >
-                    <CreditCard className="w-5 h-5 text-primary" />
+                    <CreditCard className="w-5 h-5 text-primary" aria-hidden="true" />
                     <div className="text-left">
                       <p className="font-semibold">Credit / Debit Card</p>
                       <p className="text-xs text-muted-foreground">Secure payment via Stripe</p>
@@ -136,8 +144,9 @@ export const DonationModal = () => {
                   className="w-full h-auto py-4 justify-start gap-4 hover:bg-primary/5"
                   onClick={() => handleDonate('Bitcoin')}
                   disabled={!currentAmount || isProcessing}
+                  aria-busy={isProcessing}
                 >
-                  <Bitcoin className="w-5 h-5 text-primary" />
+                  <Bitcoin className="w-5 h-5 text-primary" aria-hidden="true" />
                   <div className="text-left">
                     <p className="font-semibold">Bitcoin (BTC)</p>
                     <p className="text-xs text-muted-foreground">Native crypto donation</p>
@@ -148,8 +157,9 @@ export const DonationModal = () => {
                   className="w-full h-auto py-4 justify-start gap-4 hover:bg-primary/5"
                   onClick={() => handleDonate('Ethereum')}
                   disabled={!currentAmount || isProcessing}
+                  aria-busy={isProcessing}
                 >
-                  <Coins className="w-5 h-5 text-primary" />
+                  <Coins className="w-5 h-5 text-primary" aria-hidden="true" />
                   <div className="text-left">
                     <p className="font-semibold">Ethereum (ETH)</p>
                     <p className="text-xs text-muted-foreground">Smart contract donation</p>
@@ -169,8 +179,9 @@ export const DonationModal = () => {
                   className="w-full h-auto py-4 justify-start gap-4 hover:bg-primary/5"
                   onClick={() => handleDonate('Web3 Wallet')}
                   disabled={!currentAmount || isProcessing}
+                  aria-busy={isProcessing}
                 >
-                  <Wallet className="w-5 h-5 text-primary" />
+                  <Wallet className="w-5 h-5 text-primary" aria-hidden="true" />
                   <div className="text-left">
                     <p className="font-semibold">Connect Wallet</p>
                     <p className="text-xs text-muted-foreground">MetaMask, WalletConnect</p>
@@ -185,6 +196,8 @@ export const DonationModal = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="p-4 rounded-lg bg-gradient-dusk border border-primary/20"
+              role="status"
+              aria-live="polite"
             >
               <div className="flex justify-between items-center">
                 <span className="text-muted-foreground">Total Donation:</span>
