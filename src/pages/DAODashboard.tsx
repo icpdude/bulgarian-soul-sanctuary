@@ -21,6 +21,7 @@ import { toast } from "@/hooks/use-toast";
 import { trackPageView, trackVote, trackWalletConnection } from "@/lib/analytics";
 import { TokenGate } from "@/components/TokenGate";
 import { BulgarianRose } from "@/components/atomic/BulgarianRose";
+import { EmptyState } from "@/components/atomic/LoadingState";
 
 const proposals = [
   {
@@ -502,17 +503,17 @@ const DAODashboard = () => {
                     </div>
                   </form>
                 ) : (
-                  <div className="text-center py-12">
-                    <Wallet className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
-                    <h3 className="text-xl font-semibold mb-2">Connect Your Wallet</h3>
-                    <p className="text-muted-foreground mb-6">
-                      You need to connect your wallet to create proposals
-                    </p>
-                    <Button onClick={handleConnect}>
-                      <Wallet className="w-4 h-4 mr-2" />
-                      Connect Wallet
-                    </Button>
-                  </div>
+                  <EmptyState
+                    title="Wallet required"
+                    description="Connect your wallet to draft and submit governance proposals."
+                    icon={<Wallet className="w-5 h-5" aria-hidden="true" />}
+                    action={
+                      <Button onClick={handleConnect} className="min-h-11">
+                        <Wallet className="w-4 h-4 mr-2" aria-hidden="true" />
+                        Connect Wallet
+                      </Button>
+                    }
+                  />
                 )}
               </CardContent>
             </Card>

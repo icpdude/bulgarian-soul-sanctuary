@@ -126,35 +126,35 @@ export const MemberManagement = () => {
           >
             <Card className="border-primary/20 bg-card/50 backdrop-blur">
               <CardContent className="py-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-4 flex-1">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4 flex-1 min-w-0">
                     <Avatar>
                       <AvatarFallback className="bg-primary/10 text-primary">
                         {member.name.split(' ').map(n => n[0]).join('')}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <p className="font-semibold">{member.name}</p>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className="font-semibold truncate">{member.name}</p>
                         <Badge variant={getRoleBadgeVariant(member.role)} className="flex items-center gap-1">
                           {getRoleIcon(member.role)}
                           {member.role}
                         </Badge>
                       </div>
-                      <p className="text-sm text-muted-foreground">{member.email}</p>
+                      <p className="text-sm text-muted-foreground truncate">{member.email}</p>
                       <p className="text-xs text-muted-foreground">
                         Joined: {member.joinedAt} • Voting Power: {member.votingPower}
                       </p>
                     </div>
                   </div>
-                  <div className="w-40">
+                  <div className="w-full sm:w-40 shrink-0">
                     <Select 
                       value={member.role} 
                       onValueChange={(value: "admin" | "moderator" | "member") => 
                         handleRoleChange(member.id, value)
                       }
                     >
-                      <SelectTrigger>
+                      <SelectTrigger aria-label={`Change role for ${member.name}`}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
