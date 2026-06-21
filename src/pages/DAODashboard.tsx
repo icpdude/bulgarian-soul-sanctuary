@@ -192,11 +192,11 @@ const DAODashboard = () => {
       >
         {/* Governance Section */}
         <Tabs defaultValue="proposals" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="proposals">Proposals</TabsTrigger>
-            <TabsTrigger value="treasury">Treasury</TabsTrigger>
-            <TabsTrigger value="activity">Activity</TabsTrigger>
-            <TabsTrigger value="create">Create</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4 h-auto">
+            <TabsTrigger value="proposals" className="text-xs sm:text-sm px-2">Proposals</TabsTrigger>
+            <TabsTrigger value="treasury" className="text-xs sm:text-sm px-2">Treasury</TabsTrigger>
+            <TabsTrigger value="activity" className="text-xs sm:text-sm px-2">Activity</TabsTrigger>
+            <TabsTrigger value="create" className="text-xs sm:text-sm px-2">Create</TabsTrigger>
           </TabsList>
 
           {/* Proposals Tab */}
@@ -260,20 +260,22 @@ const DAODashboard = () => {
                                 <span className="text-primary font-medium">Vote Recorded</span>
                               </div>
                             ) : isConnected ? (
-                              <div className="flex gap-3 mt-4">
+                              <div className="flex flex-col sm:flex-row gap-3 mt-4">
                                 <Button 
-                                  className="flex-1"
+                                  className="flex-1 min-h-11"
                                   onClick={() => handleVote(proposal.id, true)}
+                                  aria-label={`Vote for ${proposal.title}`}
                                 >
-                                  <Vote className="w-4 h-4 mr-2" />
+                                  <Vote className="w-4 h-4 mr-2" aria-hidden="true" />
                                   Vote For
                                 </Button>
                                 <Button 
                                   variant="outline" 
-                                  className="flex-1"
+                                  className="flex-1 min-h-11"
                                   onClick={() => handleVote(proposal.id, false)}
+                                  aria-label={`Vote against ${proposal.title}`}
                                 >
-                                  <Vote className="w-4 h-4 mr-2" />
+                                  <Vote className="w-4 h-4 mr-2" aria-hidden="true" />
                                   Against
                                 </Button>
                               </div>

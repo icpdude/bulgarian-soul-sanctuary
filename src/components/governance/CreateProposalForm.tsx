@@ -15,6 +15,8 @@ import {
 import { useCreateProposal, useVotingPower, useGovernanceInfo } from '@/hooks/useGovernance';
 import { formatEther, parseEther, isAddress } from 'viem';
 import { toast } from '@/hooks/use-toast';
+import { EmptyState } from '@/components/atomic/LoadingState';
+import { BulgarianRose } from '@/components/atomic/BulgarianRose';
 
 interface ProposalFormData {
   title: string;
@@ -161,12 +163,13 @@ export const CreateProposalForm = () => {
 
   if (!isConfigured) {
     return (
-      <Card className="border-amber-500/30 bg-amber-500/5">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 text-amber-500">
-            <AlertCircle className="w-5 h-5" />
-            <p>Governance contracts are not configured. Please set the contract addresses in environment variables.</p>
-          </div>
+      <Card variant="ethereal">
+        <CardContent className="p-0">
+          <EmptyState
+            title="Governance not configured"
+            description="Set the governance contract addresses in your environment variables to enable proposals."
+            icon={<AlertCircle className="w-5 h-5" aria-hidden="true" />}
+          />
         </CardContent>
       </Card>
     );
@@ -174,15 +177,25 @@ export const CreateProposalForm = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
-      <Card className="border-primary/20">
+      <Card variant="ethereal" className="overflow-hidden">
+        <div className="heritage-border-top" aria-hidden="true" />
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Plus className="w-5 h-5" />
-            Create New Proposal
-          </CardTitle>
+          <div className="flex items-center justify-between gap-3">
+            <div className="space-y-1">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                Governance · Proposal
+              </p>
+              <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+                <Plus className="w-5 h-5" aria-hidden="true" />
+                Create New Proposal
+              </CardTitle>
+            </div>
+            <BulgarianRose size={28} className="text-primary/30 hidden sm:block" />
+          </div>
           <CardDescription>
             Submit a proposal for community voting. Requires {formattedThreshold} governance tokens.
           </CardDescription>
