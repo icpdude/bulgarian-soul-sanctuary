@@ -15,6 +15,7 @@ import { useCastVote, useProposalState } from '@/hooks/useGovernance';
 import { VoteType, ProposalState } from '@/contracts/GovernorABI';
 import { formatEther } from 'viem';
 import { toast } from '@/hooks/use-toast';
+import { LoadingState } from '@/components/atomic/LoadingState';
 
 interface VotingPanelProps {
   proposalId: bigint;
@@ -103,15 +104,27 @@ export const VotingPanel = ({ proposalId, title, description, category }: Voting
   const isVotingActive = state === ProposalState.Active;
   const isProcessing = isPending || isConfirming;
 
+  if (isLoadingState) {
+    return (
+      <Card variant="ethereal">
+        <CardContent className="p-0">
+          <LoadingState label="Loading proposal" size={40} minHeight="min-h-[220px]" />
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
-      <Card className="bg-card/70 backdrop-blur-sm border-border hover:border-primary/50 transition-all">
+      <Card variant="ethereal" className="overflow-hidden">
+        <div className="heritage-border-top" aria-hidden="true" />
         <CardHeader>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {category && (
                 <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20">
                   {category}
@@ -121,12 +134,12 @@ export const VotingPanel = ({ proposalId, title, description, category }: Voting
                 {stateLabel}
               </Badge>
             </div>
-            <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-              <Clock className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Clock className="w-4 h-4" aria-hidden="true" />
               <span>{getDeadlineDisplay()}</span>
             </div>
           </div>
-          <CardTitle className="text-xl mt-2">{title}</CardTitle>
+          <CardTitle className="text-lg sm:text-xl mt-2">{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
 
@@ -191,29 +204,33 @@ export const VotingPanel = ({ proposalId, title, description, category }: Voting
                     </div>
                   )}
 
-                  <div className="flex gap-3">
+                  <div className="flex flex-col sm:flex-row gap-3">
                     <Button
-                      className="flex-1"
+                      className="flex-1 min-h-11"
                       onClick={() => handleVote(VoteType.For)}
                       disabled={isProcessing}
+                      aria-busy={isProcessing}
+                      aria-label="Vote for this proposal"
                     >
                       {isProcessing ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
                       ) : (
-                        <CheckCircle className="w-4 h-4 mr-2" />
+                        <CheckCircle className="w-4 h-4 mr-2" aria-hidden="true" />
                       )}
                       Vote For
                     </Button>
                     <Button
                       variant="destructive"
-                      className="flex-1"
+                      className="flex-1 min-h-11"
                       onClick={() => handleVote(VoteType.Against)}
                       disabled={isProcessing}
+                      aria-busy={isProcessing}
+                      aria-label="Vote against this proposal"
                     >
                       {isProcessing ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
                       ) : (
-                        <XCircle className="w-4 h-4 mr-2" />
+                        <XCircle className="w-4 h-4 mr-2" aria-hidden="true" />
                       )}
                       Against
                     </Button>
@@ -221,8 +238,10 @@ export const VotingPanel = ({ proposalId, title, description, category }: Voting
                       variant="outline"
                       onClick={() => handleVote(VoteType.Abstain)}
                       disabled={isProcessing}
+                      aria-label="Abstain from voting"
+                      className="min-h-11 min-w-11"
                     >
-                      <Minus className="w-4 h-4" />
+                      <Minus className="w-4 h-4" aria-hidden="true" />
                     </Button>
                   </div>
 

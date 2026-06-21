@@ -13,6 +13,8 @@ import {
 import { useVotingPower, useDelegateVotes } from '@/hooks/useGovernance';
 import { isAddress } from 'viem';
 import { toast } from '@/hooks/use-toast';
+import { EmptyState } from '@/components/atomic/LoadingState';
+import { BulgarianRose } from '@/components/atomic/BulgarianRose';
 
 export const DelegationPanel = () => {
   const { isConnected, address } = useAccount();
@@ -68,12 +70,13 @@ export const DelegationPanel = () => {
 
   if (!isConnected) {
     return (
-      <Card className="border-muted">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <Users className="w-5 h-5" />
-            <p>Connect your wallet to manage delegation.</p>
-          </div>
+      <Card variant="ethereal">
+        <CardContent className="p-0">
+          <EmptyState
+            title="Wallet required"
+            description="Connect your wallet to view and manage your voting power delegation."
+            icon={<Users className="w-5 h-5" aria-hidden="true" />}
+          />
         </CardContent>
       </Card>
     );
@@ -81,15 +84,25 @@ export const DelegationPanel = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
-      <Card className="border-primary/20">
+      <Card variant="ethereal" className="overflow-hidden">
+        <div className="heritage-border-top" aria-hidden="true" />
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Users className="w-5 h-5" />
-            Voting Power & Delegation
-          </CardTitle>
+          <div className="flex items-center justify-between gap-3">
+            <div className="space-y-1">
+              <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                Governance · Delegation
+              </p>
+              <CardTitle className="flex items-center gap-2 text-xl sm:text-2xl">
+                <Users className="w-5 h-5" aria-hidden="true" />
+                Voting Power & Delegation
+              </CardTitle>
+            </div>
+            <BulgarianRose size={28} className="text-primary/30 hidden sm:block" />
+          </div>
           <CardDescription>
             Delegate your voting power to yourself or another address to participate in governance.
           </CardDescription>
@@ -155,22 +168,23 @@ export const DelegationPanel = () => {
             <Button
               onClick={handleDelegateToSelf}
               disabled={isProcessing || isSelfDelegated}
-              className="w-full"
+              className="w-full min-h-11"
+              aria-busy={isProcessing}
               variant={isSelfDelegated ? "secondary" : "default"}
             >
               {isProcessing ? (
                 <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" />
                   {isPending ? 'Confirm in Wallet...' : 'Delegating...'}
                 </>
               ) : isSelfDelegated ? (
                 <>
-                  <CheckCircle className="w-4 h-4 mr-2" />
+                  <CheckCircle className="w-4 h-4 mr-2" aria-hidden="true" />
                   Already Self-Delegated
                 </>
               ) : (
                 <>
-                  <UserCheck className="w-4 h-4 mr-2" />
+                  <UserCheck className="w-4 h-4 mr-2" aria-hidden="true" />
                   Delegate to Myself
                 </>
               )}
@@ -180,22 +194,25 @@ export const DelegationPanel = () => {
           {/* Delegate to Another Address */}
           <div className="space-y-3 pt-4 border-t border-border">
             <Label>Delegate to Another Address</Label>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 placeholder="0x..."
                 value={delegateeAddress}
                 onChange={(e) => setDelegateeAddress(e.target.value)}
-                className="flex-1 font-mono text-sm"
+                className="flex-1 font-mono text-sm min-h-11"
+                aria-label="Delegatee Ethereum address"
               />
               <Button
                 onClick={handleDelegateToAddress}
                 disabled={isProcessing || !delegateeAddress}
                 variant="outline"
+                aria-label="Delegate to entered address"
+                className="min-h-11 min-w-11"
               >
                 {isProcessing ? (
-                  <Loader2 className="w-4 h-4 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
                 ) : (
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 )}
               </Button>
             </div>
